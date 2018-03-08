@@ -16,7 +16,8 @@
   },
   "autoload": {
     "psr-4": {
-      "OpenExchangeRatesWrapper\\": ["src/"]
+      "OpenExchangeRatesWrapper\\": ["src/"],
+      "OpenExchangeRatesWrapper\\Endpoints\\": ["src/endpoints/"]
     }
   },
   "scripts": {
