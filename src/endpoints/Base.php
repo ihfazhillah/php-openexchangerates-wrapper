@@ -5,6 +5,8 @@ class Base
 
     protected static $BASE_URL = "://openexchangerates.org/api/";
 
+    protected static $name = "default";
+
     public function __construct(string $app_id = "", array $options = [])
     {
         if (empty($app_id)) {
@@ -47,6 +49,12 @@ class Base
         $queries = array_merge($firstQuery, $options);
 
         return http_build_query($queries);
+    }
+
+    public function getEndpoint(array $options = []): string
+    {
+        $queryString = $this->buildQuery($options);
+        return $this->getBaseUrl() . self::$name . "?" . $queryString;
     }
 
 }

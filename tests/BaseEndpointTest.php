@@ -72,4 +72,16 @@ class BaseEndpointTest extends TestCase
             )
         );
     }
+
+    public function testGetEndpoint(): void
+    {
+        $this->assertEquals(
+            "http://openexchangerates.org/api/default?app_id=hello&bar=true",
+            (new Base(self::$fakeId))->getEndpoint(
+                [
+                    "bar" => true,
+                ]
+            )
+        );
+    }
 }
