@@ -1,0 +1,25 @@
+{
+  "name": "ihfazhillah/php-openexchangerates-wrapper",
+  "description": "a php wrapper of open exchange rates api",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "ihfazhillah",
+      "email": "mihfazhillah@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {},
+  "require-dev": {
+    "phpunit/phpunit": "^7"
+  },
+  "autoload": {
+    "psr-4": {
+      "OpenExchangeRatesWrapper\\": ["src/"]
+    }
+  },
+  "scripts": {
+    "phpunit": ["phpunit --bootstrap vendor/autoload.php"]
+  }
+}
