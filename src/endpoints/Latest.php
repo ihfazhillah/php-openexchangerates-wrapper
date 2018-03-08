@@ -1,6 +1,6 @@
 <?php namespace OpenExchangeRatesWrapper\Endpoints;
 
-class Latest
+class Latest extends Base
 {
 
 }
