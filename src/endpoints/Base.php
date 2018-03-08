@@ -54,7 +54,7 @@ class Base
     public function getEndpoint(array $options = []): string
     {
         $queryString = $this->buildQuery($options);
-        return $this->getBaseUrl() . self::$name . "?" . $queryString;
+        return $this->getBaseUrl() . static::$name . "?" . $queryString;
     }
 
 }
