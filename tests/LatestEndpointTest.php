@@ -24,4 +24,28 @@ class LatestEndpointTest extends TestCase
             is_subclass_of(new Latest(self::$fakeId), Base::class)
         );
     }
+
+    public function testGetBaseUrl(): void
+    {
+        $this->assertEquals(
+            "http://openexchangerates.org/api/",
+            (new Latest(self::$fakeId))->getBaseUrl()
+        );
+    }
+
+    public function testGetEndPoint(): void
+    {
+        $queries = [
+            "base" => "IDR",
+            "symbols" => "SAR,USD",
+        ];
+
+        $endpoint = (new Latest(self::$fakeId))->getEndpoint($queries);
+
+        $this->assertEquals(
+            "http://openexchangerates.org/api/latest.json?app_id=hello&base=IDR&symbols=SAR%2CUSD",
+            $endpoint
+        );
+
+    }
 }
