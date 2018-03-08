@@ -73,4 +73,11 @@ class EndpointTest extends TestCase
             (new Endpoint(self::$fakeId))->latest("", "", false)
         );
     }
+
+    public function testHistoricalEndpointShouldWithDate(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("date YYYY-MM-DD format required");
+        (new Endpoint(self::$fakeId))->historical();
+    }
 }

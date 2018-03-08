@@ -50,4 +50,12 @@ class Endpoint
         return $endpoint . '?' . $queries_string;
     }
 
+    public function historical(string $date = '')
+    {
+        if (empty($date)) {
+            throw new \InvalidArgumentException("date YYYY-MM-DD format required");
+
+        }
+    }
+
 }
