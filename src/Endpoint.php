@@ -56,6 +56,11 @@ class Endpoint
             throw new \InvalidArgumentException("date YYYY-MM-DD format required");
 
         }
+
+        $endpoint = $this->getBaseEndpoint() . "historical/" . $date . ".json";
+
+        return $endpoint;
+
     }
 
 }

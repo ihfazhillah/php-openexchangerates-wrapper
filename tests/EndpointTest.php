@@ -80,4 +80,12 @@ class EndpointTest extends TestCase
         $this->expectExceptionMessage("date YYYY-MM-DD format required");
         (new Endpoint(self::$fakeId))->historical();
     }
+
+    public function testHistoricalEndpointSuccess(): void
+    {
+        $this->assertEquals(
+            "http://openexchangerates.org/api/historical/2010-08-12.json",
+            (new Endpoint(self::$fakeId))->historical("2010-08-12")
+        );
+    }
 }
