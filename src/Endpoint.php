@@ -1,5 +1,7 @@
 <?php namespace OpenExchangeRatesWrapper;
 
+use OpenExchangeRatesWrapper\Endpoints\Latest;
+
 class Endpoint
 {
     protected static $BASE_ENDPOINT = "://openexchangerates.org/api/";
@@ -32,25 +34,28 @@ class Endpoint
 
     public function latest(array $options = [])
     {
-        $endpoint = $this->getBaseEndpoint() . "latest.json";
-        if (isset($options['show_alternatives'])) {
+        $latest = new Latest($this->app_id, $this->options);
 
-            if (!$options['show_alternatives']) {
-                unset($options['show_alternatives']);
-            } else {
-                $options['show_alternatives'] = 'true';
-            }
-        }
+        return $latest->getEndpoint($options);
+        // $endpoint = $this->getBaseEndpoint() . "latest.json";
+        // if (isset($options['show_alternatives'])) {
 
-        $queries = [
-            "app_id" => $this->app_id,
-        ];
+        //     if (!$options['show_alternatives']) {
+        //         unset($options['show_alternatives']);
+        //     } else {
+        //         $options['show_alternatives'] = 'true';
+        //     }
+        // }
 
-        $queries = array_merge($queries, $options);
+        // $queries = [
+        //     "app_id" => $this->app_id,
+        // ];
 
-        $queriesString = http_build_query($queries);
+        // $queries = array_merge($queries, $options);
 
-        return $endpoint . '?' . $queriesString;
+        // $queriesString = http_build_query($queries);
+
+        // return $endpoint . '?' . $queriesString;
     }
 
     public function historical(string $date = '', array $options = [])

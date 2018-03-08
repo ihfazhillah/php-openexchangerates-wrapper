@@ -19,14 +19,15 @@ class Base
 
     public function getBaseUrl(): string
     {
+
         $options = $this->options;
+        $protocol = "http";
         if (isset($options["https"])) {
             if ($options["https"]) {
                 $protocol = "https";
             }
-        } else {
-            $protocol = "http";
         }
+
         return $protocol . self::$BASE_URL;
     }
 
