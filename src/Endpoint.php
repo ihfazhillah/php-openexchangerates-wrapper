@@ -35,27 +35,7 @@ class Endpoint
     public function latest(array $options = [])
     {
         $latest = new Latest($this->app_id, $this->options);
-
         return $latest->getEndpoint($options);
-        // $endpoint = $this->getBaseEndpoint() . "latest.json";
-        // if (isset($options['show_alternatives'])) {
-
-        //     if (!$options['show_alternatives']) {
-        //         unset($options['show_alternatives']);
-        //     } else {
-        //         $options['show_alternatives'] = 'true';
-        //     }
-        // }
-
-        // $queries = [
-        //     "app_id" => $this->app_id,
-        // ];
-
-        // $queries = array_merge($queries, $options);
-
-        // $queriesString = http_build_query($queries);
-
-        // return $endpoint . '?' . $queriesString;
     }
 
     public function historical(string $date = '', array $options = [])
