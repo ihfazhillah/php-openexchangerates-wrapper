@@ -50,7 +50,7 @@ class Endpoint
         return $endpoint . '?' . $queries_string;
     }
 
-    public function historical(string $date = '')
+    public function historical(string $date = '', array $options = [])
     {
         if (empty($date)) {
             throw new \InvalidArgumentException("date YYYY-MM-DD format required");
@@ -59,7 +59,24 @@ class Endpoint
 
         $endpoint = $this->getBaseEndpoint() . "historical/" . $date . ".json";
 
-        return $endpoint;
+        if (isset($options['show_alternatives'])) {
+
+            if (!$options['show_alternatives']) {
+                unset($options['show_alternatives']);
+            } else {
+                $options['show_alternatives'] = 'true';
+            }
+        }
+
+        $queries = [
+            "app_id" => $this->app_id,
+        ];
+
+        $queries = array_merge($queries, $options);
+
+        $queriesString = http_build_query($queries);
+
+        return $endpoint . "?" . $queriesString;
 
     }
 

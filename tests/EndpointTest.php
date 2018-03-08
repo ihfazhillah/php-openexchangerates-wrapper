@@ -84,8 +84,40 @@ class EndpointTest extends TestCase
     public function testHistoricalEndpointSuccess(): void
     {
         $this->assertEquals(
-            "http://openexchangerates.org/api/historical/2010-08-12.json",
+            "http://openexchangerates.org/api/historical/2010-08-12.json?app_id=hello_world",
             (new Endpoint(self::$fakeId))->historical("2010-08-12")
         );
     }
+
+    public function testHistoricalEndpointWithBase(): void
+    {
+        $this->assertEquals(
+            "http://openexchangerates.org/api/historical/2010-08-12.json?app_id=hello_world&base=IDR",
+            (new Endpoint(self::$fakeId))->historical("2010-08-12", ["base" => "IDR"])
+        );
+    }
+
+    public function testHistoricalEndpointWithSymbols(): void
+    {
+        $this->assertEquals(
+            "http://openexchangerates.org/api/historical/2010-08-12.json?app_id=hello_world&symbols=IDR%2CSAR",
+            (new Endpoint(self::$fakeId))->historical("2010-08-12", ["symbols" => "IDR,SAR"])
+        );
+    }
+
+    public function testHistoricalEndpointWithShowAlternatives(): void
+    {
+        $this->assertEquals(
+            "http://openexchangerates.org/api/historical/2010-08-12.json?app_id=hello_world&show_alternatives=true",
+            (new Endpoint(self::$fakeId))->historical("2010-08-12", ["show_alternatives" => true])
+        );
+    }
+    public function testHistoricalEndpointWithShowAlternativesFalse(): void
+    {
+        $this->assertEquals(
+            "http://openexchangerates.org/api/historical/2010-08-12.json?app_id=hello_world",
+            (new Endpoint(self::$fakeId))->historical("2010-08-12", ["show_alternatives" => false])
+        );
+    }
+
 }
