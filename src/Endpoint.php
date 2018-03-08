@@ -30,24 +30,27 @@ class Endpoint
         return $protocol . self::$BASE_ENDPOINT;
     }
 
-    public function latest(string $base = "", string $symbols = "", bool $show_alternatives = false)
+    public function latest(array $options = [])
     {
         $endpoint = $this->getBaseEndpoint() . "latest.json";
-        $queries = ['app_id' => $this->app_id];
-        if (!empty($base)) {
-            $queries["base"] = $base;
+        if (isset($options['show_alternatives'])) {
+
+            if (!$options['show_alternatives']) {
+                unset($options['show_alternatives']);
+            } else {
+                $options['show_alternatives'] = 'true';
+            }
         }
 
-        if (!empty($symbols)) {
-            $queries["symbols"] = $symbols;
-        }
+        $queries = [
+            "app_id" => $this->app_id,
+        ];
 
-        if ($show_alternatives) {
-            $queries["show_alternatives"] = "true";
-        }
+        $queries = array_merge($queries, $options);
 
-        $queries_string = http_build_query($queries);
-        return $endpoint . '?' . $queries_string;
+        $queriesString = http_build_query($queries);
+
+        return $endpoint . '?' . $queriesString;
     }
 
     public function historical(string $date = '', array $options = [])

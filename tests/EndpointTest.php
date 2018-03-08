@@ -50,7 +50,7 @@ class EndpointTest extends TestCase
     {
         $this->assertEquals(
             "http://openexchangerates.org/api/latest.json?app_id=hello_world&base=IDR",
-            (new Endpoint(self::$fakeId))->latest("IDR")
+            (new Endpoint(self::$fakeId))->latest(["base" => "IDR"])
         );
     }
 
@@ -58,7 +58,7 @@ class EndpointTest extends TestCase
     {
         $this->assertEquals(
             "http://openexchangerates.org/api/latest.json?app_id=hello_world&symbols=IDR%2CSAR",
-            (new Endpoint(self::$fakeId))->latest("", "IDR,SAR")
+            (new Endpoint(self::$fakeId))->latest(["symbols" => "IDR,SAR"])
         );
     }
 
@@ -66,11 +66,11 @@ class EndpointTest extends TestCase
     {
         $this->assertEquals(
             "http://openexchangerates.org/api/latest.json?app_id=hello_world&show_alternatives=true",
-            (new Endpoint(self::$fakeId))->latest("", "", true)
+            (new Endpoint(self::$fakeId))->latest(["show_alternatives" => true])
         );
         $this->assertEquals(
             "http://openexchangerates.org/api/latest.json?app_id=hello_world",
-            (new Endpoint(self::$fakeId))->latest("", "", false)
+            (new Endpoint(self::$fakeId))->latest(['show_alternatives' => false])
         );
     }
 
