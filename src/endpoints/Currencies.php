@@ -1,6 +1,6 @@
 <?php namespace OpenExchangeRatesWrapper\Endpoints;
 
-class Currencies
+class Currencies extends Base
 {
 
 }
