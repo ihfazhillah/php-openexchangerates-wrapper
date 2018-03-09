@@ -23,4 +23,12 @@ class CurrenciesEndpointTest extends TestCase
             is_subclass_of(Currencies::class, Base::class)
         );
     }
+
+    public function testGetBaseUrl()
+    {
+        $this->assertEquals(
+            "http://openexchangerates.org/api/",
+            (new Currencies(self::$fakeId))->getBaseUrl()
+        );
+    }
 }
