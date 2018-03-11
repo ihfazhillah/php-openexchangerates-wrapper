@@ -31,4 +31,20 @@ class CurrenciesEndpointTest extends TestCase
             (new Currencies(self::$fakeId))->getBaseUrl()
         );
     }
+
+    public function testAllowedQueries()
+    {
+        $this->assertEquals(
+            ["show_alternative"],
+            (new Currencies(self::$fakeId))->getAllowedQueries()
+        );
+    }
+
+    public function testGetAppendQueries()
+    {
+        $this->assertEquals(
+            ["show_inactive"],
+            (new Currencies(self::$fakeId))->getAppendQueries()
+        );
+    }
 }

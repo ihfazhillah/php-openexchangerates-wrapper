@@ -43,17 +43,17 @@ class BaseEndpointTest extends TestCase
     public function testQueryBuilderWithOptions(): void
     {
         $this->assertEquals(
-            "app_id=hello&foo=bar&ihfazh=hello",
-            (new Base(self::$fakeId))->buildQuery(["foo" => "bar", "ihfazh" => "hello"])
+            "app_id=hello&symbols=USD&base=USD",
+            (new Base(self::$fakeId))->buildQuery(["symbols" => "USD", "base" => "USD"])
         );
     }
 
     public function testQueryBuilderWithTrueValue(): void
     {
         $this->assertEquals(
-            "app_id=hello&foo=true",
+            "app_id=hello&show_alternative=true",
             (new Base(self::$fakeId))->buildQuery(
-                ["foo" => true]
+                ["show_alternative" => true]
             )
         );
     }
@@ -63,11 +63,11 @@ class BaseEndpointTest extends TestCase
         // must delete / unset this key val
 
         $this->assertEquals(
-            "app_id=hello&bar=true",
+            "app_id=hello&base=USD",
             (new Base(self::$fakeId))->buildQuery(
                 [
-                    "foo" => false,
-                    "bar" => true,
+                    "show_alternative" => false,
+                    "base" => "USD",
                 ]
             )
         );
@@ -76,12 +76,40 @@ class BaseEndpointTest extends TestCase
     public function testGetEndpoint(): void
     {
         $this->assertEquals(
-            "http://openexchangerates.org/api/default?app_id=hello&bar=true",
+            "http://openexchangerates.org/api/default?app_id=hello&show_alternative=true",
             (new Base(self::$fakeId))->getEndpoint(
                 [
-                    "bar" => true,
+                    "show_alternative" => true,
                 ]
             )
         );
     }
+
+    public function testGetAllowedQueries(): void
+    {
+        $this->assertEquals(
+            ["base", "symbols", "show_alternative"],
+            (new Base(self::$fakeId))->getAllowedQueries()
+        );
+    }
+
+    public function testMustErrorWhenQueriesNotInGetAllowedQueries(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("queries not allowed. Please use one of base,symbols,show_alternative");
+        (new Base(self::$fakeId))->buildQuery([
+            "hello" => "world",
+            "foo" => true
+        ]);
+    }
+
+    public function testGetAppendQueries(): void
+    {
+        $this->assertEquals(
+            [],
+            (new Base(self::$fakeId))->getAppendQueries()
+        );
+
+    }
 }
+

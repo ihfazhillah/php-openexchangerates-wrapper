@@ -65,12 +65,12 @@ class EndpointTest extends TestCase
     public function testLatestEndpointWithShowAlternative(): void
     {
         $this->assertEquals(
-            "http://openexchangerates.org/api/latest.json?app_id=hello_world&show_alternatives=true",
-            (new Endpoint(self::$fakeId))->latest(["show_alternatives" => true])
+            "http://openexchangerates.org/api/latest.json?app_id=hello_world&show_alternative=true",
+            (new Endpoint(self::$fakeId))->latest(["show_alternative" => true])
         );
         $this->assertEquals(
             "http://openexchangerates.org/api/latest.json?app_id=hello_world",
-            (new Endpoint(self::$fakeId))->latest(['show_alternatives' => false])
+            (new Endpoint(self::$fakeId))->latest(['show_alternative' => false])
         );
     }
 

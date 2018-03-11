@@ -7,6 +7,10 @@ class Base
 
     protected static $name = "default";
 
+    protected static $allowedQueries = ["base", "symbols", "show_alternative"];
+
+    protected static $appendQueries = [];
+
     public function __construct(string $app_id = "", array $options = [])
     {
         if (empty($app_id)) {
@@ -38,6 +42,11 @@ class Base
         ];
 
         foreach ($options as $key => $val) {
+            
+            if (!in_array($key, static::$allowedQueries)){
+                throw new \InvalidArgumentException("queries not allowed. Please use one of " . implode(",", static::$allowedQueries));
+            }
+
             if (gettype($val) == 'boolean') {
                 if ($val) {
                     $options[$key] = "true";
@@ -56,6 +65,16 @@ class Base
     {
         $queryString = $this->buildQuery($options);
         return $this->getBaseUrl() . static::$name . "?" . $queryString;
+    }
+
+    public function getAllowedQueries(): array
+    {
+        return static::$allowedQueries;
+    }
+
+    public function getAppendQueries(): array
+    {
+        return static::$appendQueries;
     }
 
 }
