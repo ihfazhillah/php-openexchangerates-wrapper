@@ -41,10 +41,12 @@ class Base
             "app_id" => $this->app_id,
         ];
 
+        $allowedQueries = array_merge(static::$allowedQueries, static::$appendQueries);
+
         foreach ($options as $key => $val) {
             
-            if (!in_array($key, static::$allowedQueries)){
-                throw new \InvalidArgumentException("queries not allowed. Please use one of " . implode(",", static::$allowedQueries));
+            if (!in_array($key, $allowedQueries)){
+                throw new \InvalidArgumentException("queries not allowed. Please use one of " . implode(",", $allowedQueries));
             }
 
             if (gettype($val) == 'boolean') {

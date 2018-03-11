@@ -47,4 +47,26 @@ class CurrenciesEndpointTest extends TestCase
             (new Currencies(self::$fakeId))->getAppendQueries()
         );
     }
+
+    public function testGetQueryStringWithAppendedShouldNotComplaint()
+    {
+        $this->assertEquals(
+            "app_id=hello&show_alternative=true&show_inactive=true",
+            (new Currencies(self::$fakeId))->buildQuery(
+                [
+                    "show_alternative" => true,
+                    "show_inactive" => true
+                ]
+            )
+        );
+        $this->assertEquals(
+            "app_id=hello&show_inactive=true",
+            (new Currencies(self::$fakeId))->buildQuery(
+                [
+                    "show_alternative" => false,
+                    "show_inactive" => true
+                ]
+            )
+        );
+    }
 }
