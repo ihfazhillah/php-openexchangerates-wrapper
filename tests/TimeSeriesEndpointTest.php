@@ -25,4 +25,12 @@ class TestTimeSeriesEndpoint extends TestCase
             )
         );
     }
+
+    public function testAppendQueries()
+    {
+        $this->assertEquals(
+            ["start", "end"],
+            (new TimeSeries(self::$fakeId))->getAppendQueries()
+        );
+    }
 }

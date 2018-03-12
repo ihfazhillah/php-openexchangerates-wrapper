@@ -2,4 +2,5 @@
 
 class TimeSeries extends Base
 {
+    protected static $appendQueries = ["start", "end"];
 }
