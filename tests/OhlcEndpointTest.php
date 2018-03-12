@@ -34,4 +34,13 @@ class OhlcEndpointTest extends TestCase
             $ohlc->getAppendQueries()
         );
     }
+
+    public function testGetAllowedQueries(): void
+    {
+        $ohlc = new OHLC(self::$fakeId);
+        $this->assertEquals(
+            ["symbols", "base"],
+            $ohlc->getAllowedQueries()
+        );
+    }
 }
