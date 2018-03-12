@@ -10,6 +10,18 @@ class Endpoint
         'https' => false,
     ];
 
+    protected static $allowedEndpoints = ["latest", "historical", "currencies", "time-series", "convert", "ohlc", "status"];
+
+    protected static $endpointMaps = [
+        "latest" => "\OpenExchangeRatesWrapper\Endpoints\Latest",
+        "historical" => "\OpenExchangeRatesWrapper\Endpoints\Historical",
+        "currencies" => "\OpenExchangeRatesWrapper\Endpoints\Currencies",
+        "time-series" => "\OpenExchangeRatesWrapper\Endpoints\TimeSeries",
+        "convert" => "\OpenExchangeRatesWrapper\Endpoints\Convert",
+        "ohlc" => "\OpenExchangeRatesWrapper\Endpoints\OHLC",
+        "status" => "\OpenExchangeRatesWrapper\Endpoints\Status",
+    ];
+
     public function __construct(string $app_id = '', array $options = [])
     {
 
@@ -32,40 +44,19 @@ class Endpoint
         return $protocol . self::$BASE_ENDPOINT;
     }
 
-    public function latest(array $options = [])
+
+    public function getAllowedEndpoints()
     {
-        $latest = new Latest($this->app_id, $this->options);
-        return $latest->getEndpoint($options);
+        return self::$allowedEndpoints;
     }
 
-    public function historical(string $date = '', array $options = [])
+    public function getEndpointInstance(string $endpoint)
     {
-        if (empty($date)) {
-            throw new \InvalidArgumentException("date YYYY-MM-DD format required");
-
+        if (!in_array($endpoint, self::$allowedEndpoints)){
+            throw new \InvalidArgumentException($endpoint . " endpoint not found");
         }
 
-        $endpoint = $this->getBaseEndpoint() . "historical/" . $date . ".json";
-
-        if (isset($options['show_alternatives'])) {
-
-            if (!$options['show_alternatives']) {
-                unset($options['show_alternatives']);
-            } else {
-                $options['show_alternatives'] = 'true';
-            }
-        }
-
-        $queries = [
-            "app_id" => $this->app_id,
-        ];
-
-        $queries = array_merge($queries, $options);
-
-        $queriesString = http_build_query($queries);
-
-        return $endpoint . "?" . $queriesString;
-
+        return new self::$endpointMaps[$endpoint]($this->app_id);
     }
 
 }
