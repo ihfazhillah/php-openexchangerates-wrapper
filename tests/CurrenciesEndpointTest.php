@@ -69,4 +69,15 @@ class CurrenciesEndpointTest extends TestCase
             )
         );
     }
+
+    public function testGetEndpoint()
+    {
+        $this->assertEquals(
+            "http://openexchangerates.org/api/currencies.json?app_id=hello&show_inactive=true",
+            (new Currencies(self::$fakeId))->getEndpoint([
+                'show_inactive' => true,
+                'show_alternative' => false
+            ])
+        );
+    }
 }
