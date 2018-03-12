@@ -10,11 +10,7 @@ class OHLC extends Base
     {
         $required = ["start_time", "period"];
 
-        foreach($required as $key) {
-            if (!isset($options[$key])){
-                throw new \InvalidArgumentException($key . " query is required");
-            }
-        }
+        $this->isOptionRequired($options, $required);
 
         return parent::buildQuery($options);
     }

@@ -49,14 +49,14 @@ class OhlcEndpointTest extends TestCase
         $ohlc = new OHLC(self::$fakeId);
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("start_time query is required");
+        $this->expectExceptionMessage("start_time option is required");
         $ohlc->buildQuery([
             "period" => "1d"
         ]);
 
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("period query is required");
+        $this->expectExceptionMessage("period option is required");
         $ohlc->buildQuery([
             "start_time" => "2017-09-20" // TODO: in datetime format not YYYY-MM-DD
         ]);

@@ -39,7 +39,7 @@ class TestTimeSeriesEndpoint extends TestCase
         $timeSeries = new TimeSeries(self::$fakeId);
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("start query is required");
+        $this->expectExceptionMessage("start option is required");
         $timeSeries->buildQuery(
             [
                 'end' => '2017-10-09'
@@ -47,7 +47,7 @@ class TestTimeSeriesEndpoint extends TestCase
         );
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("end query is required");
+        $this->expectExceptionMessage("end option is required");
         $timeSeries->buildQuery(
             [
                 'start' => '2017-10-09'
