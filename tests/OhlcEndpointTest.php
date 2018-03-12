@@ -61,4 +61,16 @@ class OhlcEndpointTest extends TestCase
             "start_time" => "2017-09-20" // TODO: in datetime format not YYYY-MM-DD
         ]);
     }
+
+    public function testGetEndpoint(): void
+    {
+        $ohlc = new OHLC(self::$fakeId);
+        $this->assertEquals(
+            "http://openexchangerates.org/api/ohlc.json?app_id=hello&start_time=2017-07-17T11%3A00%3A00Z&period=1d",
+            $ohlc->getEndpoint([
+                "start_time" => "2017-07-17T11:00:00Z",
+                "period" => "1d"
+            ])
+        );
+    }
 }

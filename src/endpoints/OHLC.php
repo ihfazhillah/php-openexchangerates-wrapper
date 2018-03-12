@@ -2,6 +2,7 @@
 
 class OHLC extends Base
 {
+    protected static $name = "ohlc.json";
     protected static $appendQueries = ["start_time", "period"];
     protected static $allowedQueries = ["symbols", "base"];
 
