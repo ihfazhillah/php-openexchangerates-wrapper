@@ -9,11 +9,7 @@ class Convert extends Base
     {
         $required = ["value", "from", "to"];
 
-        foreach ($required as $key){
-            if (!isset($options[$key])){
-                throw new \InvalidArgumentException($key . " option is required");
-            }
-        }
+        $this->isOptionRequired($options, $required);
 
         $endpoint = $this->getBaseUrl() . self::$name . $options["value"] . "/" . $options["from"] . "/" . $options["to"] . "?app_id=" . $this->app_id;
 
