@@ -55,4 +55,20 @@ class TestTimeSeriesEndpoint extends TestCase
         );
     }
 
+    public function testGetEndpoint()
+    {
+        $timeSeries = new TimeSeries(self::$fakeId);
+
+        $this->assertEquals(
+            "http://openexchangerates.org/api/time-series.json?app_id=hello&start=2017-03-01&end=2017-03-04&base=USD",
+            $timeSeries->getEndpoint(
+                [
+                    'start' => '2017-03-01',
+                    'end' => '2017-03-04',
+                    'base' => "USD"
+                ]
+            )
+        );
+    }
+
 }

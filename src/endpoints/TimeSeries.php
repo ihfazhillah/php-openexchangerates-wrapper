@@ -2,6 +2,8 @@
 
 class TimeSeries extends Base
 {
+    
+    protected static $name = "time-series.json";
     protected static $appendQueries = ["start", "end"];
 
     public function buildQuery(array $options = []): string
