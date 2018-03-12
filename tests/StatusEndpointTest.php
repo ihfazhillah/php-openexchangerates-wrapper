@@ -44,5 +44,14 @@ class StatusEndpointTest extends TestCase
             $status->getAppendQueries()
         );
     }
-        
+
+    public function testGetEndpoint(): void
+    {
+        $status = new Status(self::$fakeId);
+
+        $this->assertEquals(
+            "http://openexchangerates.org/api/status.json?app_id=hello",
+            $status->getEndpoint()
+        );
+    }
 }
