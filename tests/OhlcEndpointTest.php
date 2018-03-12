@@ -60,4 +60,5 @@ class OhlcEndpointTest extends TestCase
         $ohlc->buildQuery([
             "start_time" => "2017-09-20" // TODO: in datetime format not YYYY-MM-DD
         ]);
+    }
 }
