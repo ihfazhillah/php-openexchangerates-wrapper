@@ -54,4 +54,6 @@ class HistoricalEndpointTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $historical->getEndpoint();
     }
+
+    // TODO: check the date format
 }
