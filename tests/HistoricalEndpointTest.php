@@ -38,4 +38,20 @@ class HistoricalEndpointTest extends TestCase
             )
         );
     }
+
+    public function testGetEndpoint(): void
+    {
+        $historical = new Historical(self::$fakeId);
+        $this->assertEquals(
+            "http://openexchangerates.org/api/historical/2018-01-01.json?app_id=hello",
+            $historical->getEndpoint([], "2018-01-01")
+        );
+    }
+
+    public function testDateInGetEnpointIsRequired(): void
+    {
+        $historical = new Historical(self::$fakeId);
+        $this->expectException(\InvalidArgumentException::class);
+        $historical->getEndpoint();
+    }
 }
