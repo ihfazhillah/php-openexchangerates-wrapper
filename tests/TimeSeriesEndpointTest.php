@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use OpenExchangeRatesWrapper\Endpoints\TimeSeries;
+use OpenExchangeRatesWrapper\Endpoints\Base;
 
 class TestTimeSeriesEndpoint extends TestCase 
 {
@@ -12,6 +13,16 @@ class TestTimeSeriesEndpoint extends TestCase
         $this->assertInstanceOf(
             TimeSeries::class,
             new TimeSeries(self::$fakeId)
+        );
+    }
+
+    public function testChildOfBase()
+    {
+        $this->assertTrue(
+            is_subclass_of(
+                TimeSeries::class,
+                Base::class
+            )
         );
     }
 }

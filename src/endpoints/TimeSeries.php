@@ -1,5 +1,5 @@
 <?php namespace OpenExchangeRatesWrapper\Endpoints;
 
-class TimeSeries 
+class TimeSeries extends Base
 {
 }
