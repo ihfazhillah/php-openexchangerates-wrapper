@@ -42,4 +42,38 @@ class ConvertEndpointTest extends TestCase
             ]
         );
     }
+
+    public function testValueFormToIsRequired(): void
+    {
+        $convert = new Convert(self::$fakeId);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("value option is required");
+        $convert->getEndpoint();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("to option is required");
+        $convert->getEndpoint(
+            [
+                "value" => 1000,
+                "from" =>  "USD"
+            ]
+        );
+    }
+
+    public function testGetEndpoint(): void
+    {
+        $convert = new Convert(self::$fakeId);
+
+        $this->assertEquals(
+            "http://openexchangerates.org/api/convert/1000/USD/SAR?app_id=hello",
+            $convert->getEndpoint([
+                "value" => 1000,
+                "from" => "USD",
+                "to" => "SAR"
+            ])
+        );
+    }
+
+
 }
