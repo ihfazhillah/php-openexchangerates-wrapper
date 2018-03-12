@@ -25,4 +25,24 @@ class StatusEndpointTest extends TestCase
             )
         );
     }
+
+    public function testNoQueriesAllowed(): void
+    {
+        $status = new Status(self::$fakeId);
+        $this->expectException(\InvalidArgumentException::class);
+        $status->buildQuery([
+            "base" => "USD"
+        ]);
+
+        $this->assertEquals(
+            [],
+            $status->getAllowedQueries()
+        );
+
+        $this->assertEquals(
+            [],
+            $status->getAppendQueries()
+        );
+    }
+        
 }

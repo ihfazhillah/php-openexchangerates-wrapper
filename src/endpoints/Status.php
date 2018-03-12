@@ -2,4 +2,5 @@
 
 class Status extends Base
 {
+    protected static $allowedQueries = [];
 }
