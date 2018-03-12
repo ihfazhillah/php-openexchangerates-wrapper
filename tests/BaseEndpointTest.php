@@ -111,5 +111,26 @@ class BaseEndpointTest extends TestCase
         );
 
     }
+
+    public function testIsOptionRequired(): void
+    {
+        $base = new Base(self::$fakeId);
+        $required = ["foo", "bar"];
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("foo option is required");
+        $base->isOptionRequired([], $required);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("bar option is required");
+        $base->isOptionRequired([
+            "foo" => "hello"
+        ], $required);
+
+        $base->isOptionRequired([
+            "foo" => "hello",
+            "bar" => "world"
+        ]);
+    }
 }
 

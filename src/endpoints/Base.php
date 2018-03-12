@@ -79,4 +79,13 @@ class Base
         return static::$appendQueries;
     }
 
+    public function isOptionRequired(array $options, array $required): void
+    {
+        foreach ($required as $key){
+            if (!isset($options[$key])){
+                throw new \InvalidArgumentException($key . " option is required");
+            }
+        }
+    }
+
 }
