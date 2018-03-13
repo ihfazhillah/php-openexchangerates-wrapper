@@ -93,7 +93,7 @@ class OpenExchangeRates
         return $this->handleRequestResponse("status");
     }
 
-    public function nativeConvert(float $value, string $to)
+    public function nativeConvert(float $value, string $to): float
     {
         $latest = $this->latest();
         $conversion = new Conversion($latest->rates);
