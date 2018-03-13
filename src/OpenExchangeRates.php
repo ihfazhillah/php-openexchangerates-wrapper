@@ -39,4 +39,12 @@ class OpenExchangeRates
         $response = $this->client->get($endpoint->getEndpoint($options, $date));
         return Response::handleResponse($response);
     }
+
+    public function currencies(array $options = [])
+    {
+        $endpoint = $this->endpoint->getEndpointInstance("currencies");
+        $endpointUrl = $endpoint->getEndpoint($options);
+        $response = $this->client->get($endpointUrl);
+        return Response::handleResponse($response);
+    }
 }

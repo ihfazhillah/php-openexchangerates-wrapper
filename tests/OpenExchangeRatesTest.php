@@ -150,5 +150,26 @@ class OpenExchangeRatesTest extends TestCase
         $this->assertObjectHasAttribute("IDR", $response->rates);
         $this->assertObjectNotHasAttribute("SAR", $response->rates);
     }
+
+    public function testCurrenciesEndpoint()
+    {
+        $oxr = new OpenExchangeRates($this->id);
+        $response = $oxr->currencies();
+        $this->assertObjectHasAttribute("IDR", $response);
+        $this->assertObjectNotHasAttribute("VEF_BLKMKT", $response);
+        $this->assertEquals("Afghan Afghani", $response->AFN);
+    }
+
+    public function testCurrenciesEndpointWithOption()
+    {
+        $oxr = new OpenExchangeRates($this->id);
+        $response = $oxr->currencies([
+            "show_alternative" => true
+        ]);
+        $this->assertObjectHasAttribute("IDR", $response);
+        $this->assertObjectHasAttribute("VEF_BLKMKT", $response);
+        $this->assertEquals("Afghan Afghani", $response->AFN);
+    }
+
 }
 
