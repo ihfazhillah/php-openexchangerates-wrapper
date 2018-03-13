@@ -26,10 +26,17 @@ class OpenExchangeRates
         return $this->options;
     }
 
-    public function latest(): object
+    public function latest(array $options = []): object
     {
         $latestEndpoint = $this->endpoint->getEndpointInstance("latest");
-        $response = $this->client->get($latestEndpoint->getEndpoint());
+        $response = $this->client->get($latestEndpoint->getEndpoint($options));
+        return Response::handleResponse($response);
+    }
+
+    public function historical(string $date): object
+    {
+        $endpoint = $this->endpoint->getEndpointInstance("historical");
+        $response = $this->client->get($endpoint->getEndpoint([], $date));
         return Response::handleResponse($response);
     }
 }

@@ -14,6 +14,19 @@ class OpenExchangeRatesTest extends TestCase
 
     protected static $fakeId = "hello";
 
+    protected function setUp()
+    {
+        $id = getenv("OPENEXCHANGERATES_ID", true);
+        if (!$id)
+        {
+            $this->markTestSkipped(
+                "no OPENEXCHANGERATES_ID environment var"
+            );
+        }
+
+        $this->id = $id;
+    }
+
     protected function getJsonResponseString(string $name): string
     {
         $filepath = __DIR__ . "/data/" . $name;
@@ -86,10 +99,7 @@ class OpenExchangeRatesTest extends TestCase
 
     public function testLatestEndpoint()
     {
-        $client = $this->createClient(
-            $this->getJsonResponseString("latest-success.json")
-        );
-        $oxr = new OpenExchangeRates(self::$fakeId, [], $client);
+        $oxr = new OpenExchangeRates($this->id);
         $responseJsonObject = $oxr->latest();
 
         $this->assertEquals(
@@ -97,10 +107,32 @@ class OpenExchangeRatesTest extends TestCase
             $responseJsonObject->base
         );
 
-        $this->assertEquals(
-            13766.013762,
-            $responseJsonObject->rates->IDR
-        );
+        $this->assertObjectHasAttribute("IDR", $responseJsonObject->rates);
     }
+
+    public function testLatestEndpointWithQuery()
+    {
+        $oxr = new OpenExchangeRates($this->id);
+        $responseJsonObject = $oxr->latest(["symbols" => "IDR,SAR"]);
+
+        $this->assertObjectHasAttribute("IDR", $responseJsonObject->rates);
+        $this->assertObjectHasAttribute("SAR", $responseJsonObject->rates);
+        $this->assertObjectNotHasAttribute("AED", $responseJsonObject->rates);
+    }
+
+    public function testHistoricalEndpoint()
+    {
+        $dateString = "2017-01-01";
+        $oxr = new OpenExchangeRates($this->id);
+        $response = $oxr->historical($dateString);
+
+        $this->assertEquals(
+            $dateString,
+            date("Y-m-d", $response->timestamp)
+        );
+
+        $this->assertObjectHasAttribute("IDR", $response->rates);
+    }
+
 }
 

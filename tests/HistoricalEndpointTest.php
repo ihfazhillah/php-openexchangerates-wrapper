@@ -48,6 +48,15 @@ class HistoricalEndpointTest extends TestCase
         );
     }
 
+    public function testGetEndpointNotAppendDateTwice(): void
+    {
+        $historical = new Historical(self::$fakeId);
+        $this->assertEquals(
+            "http://openexchangerates.org/api/historical/2016-02-01.json?app_id=hello",
+            $historical->getEndpoint([], "2016-02-01")
+        );
+    }
+
     public function testDateInGetEnpointIsRequired(): void
     {
         $historical = new Historical(self::$fakeId);

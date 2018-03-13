@@ -11,7 +11,7 @@ class Historical extends Base
             throw new \InvalidArgumentException("date argument is required");
         }
 
-        self::$name .= $date . ".json";
+        self::$name = "historical/" . $date . ".json";
 
         return parent::getEndpoint($options);
     }
