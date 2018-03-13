@@ -12,7 +12,7 @@ class OpenExchangeRates
     {
         $this->app_id = $app_id;
         $this->options = empty($options) ? self::$defaultOptions : $options;
-        $this->client = $client ? $client : new Client();
+        $this->client = $client ? $client : new Client(["http_errors" => false]);
         $this->endpoint = new Endpoint($app_id, $options);
     }
 
@@ -47,4 +47,49 @@ class OpenExchangeRates
         $response = $this->client->get($endpointUrl);
         return Response::handleResponse($response);
     }
+
+    public function timeSeries(string $start, string $end, $options): object
+    {
+    /**
+     * this function not tested, we not have a plan with this endpoint
+     */
+        $endpoint = $this->endpoint->getEndpointInstance("time-series");
+        $options['start'] = $start;
+        $options['end'] = $end;
+        $endpointUrl = $endpoint->getEndpoint($options);
+        $response = $this->client->get($endpointUrl);
+        return Response::handleResponse($response);
+    }
+
+    public function convert(float $value, string $from, string $to, array $options): object
+    {
+    /**
+     * not tested, same as above
+     */
+
+        $options["value"] = $value;
+        $options["from"] = $from;
+        $options["to"] = $to;
+
+        $endpoint = $this->endpoint->getEndpointInstance("convert");
+        $url = $endpoint->getEndpoint($options);
+        $response = $this->client->get($url);
+        return Response::handleResponse($response);
+    }
+
+    public function ohlc(string $start_time, string $period, array $options)
+    {
+    /**
+     * not tested, same as above
+     */
+
+        $options["start_time"] = $start_time;
+        $options["period"] = $period;
+
+        $endpoint = $this->endpoint->getEndpointInstance("ohlc");
+        $url = $endpoint->getEndpoint($options);
+        $response = $this->client->get($url);
+        return Response::handleResponse($response);
+    }
+
 }
