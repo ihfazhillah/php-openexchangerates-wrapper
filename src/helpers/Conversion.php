@@ -2,8 +2,13 @@
 
 class Conversion
 {
-    public static function convert(float $value, string $to)
+    public function __construct(object $rates = null)
     {
-        return 20;
+        $this->rates = $rates ? $rates : new \StdClass;
+    }
+
+    public function convert(float $value, string $to)
+    {
+        return $this->rates->$to * $value;
     }
 }
