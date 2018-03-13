@@ -33,10 +33,10 @@ class OpenExchangeRates
         return Response::handleResponse($response);
     }
 
-    public function historical(string $date): object
+    public function historical(string $date, array $options = []): object
     {
         $endpoint = $this->endpoint->getEndpointInstance("historical");
-        $response = $this->client->get($endpoint->getEndpoint([], $date));
+        $response = $this->client->get($endpoint->getEndpoint($options, $date));
         return Response::handleResponse($response);
     }
 }

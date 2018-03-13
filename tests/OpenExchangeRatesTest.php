@@ -134,5 +134,21 @@ class OpenExchangeRatesTest extends TestCase
         $this->assertObjectHasAttribute("IDR", $response->rates);
     }
 
+    public function testHistoricalEndpointWithSymbols()
+    {
+        $dateString = "2017-01-01";
+        $oxr = new OpenExchangeRates($this->id);
+        $response = $oxr->historical($dateString, [
+            "symbols" => "IDR"
+        ]);
+
+        $this->assertEquals(
+            $dateString,
+            date("Y-m-d", $response->timestamp)
+        );
+
+        $this->assertObjectHasAttribute("IDR", $response->rates);
+        $this->assertObjectNotHasAttribute("SAR", $response->rates);
+    }
 }
 
