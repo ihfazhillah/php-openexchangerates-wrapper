@@ -14,21 +14,21 @@ class OpenExchangeRatesTest extends TestCase
 
     protected static $fakeId = "hello";
 
-    protected function createLatestClient(): Client
-    {
-        $mock = new MockHandler([
-            new Response(200,[], $this->getJsonResponseString('latest-success.json')),
-        ]);
-        $handler = HandlerStack::create($mock);
-        $client = new Client([ "handler" => $handler]);
-
-        return $client;
-    }
-
     protected function getJsonResponseString(string $name): string
     {
         $filepath = __DIR__ . "/data/" . $name;
         return file_get_contents($filepath);
+    }
+
+    protected function createClient(string $responseBodyString)
+    {
+        $mock = new MockHandler([
+            new Response(200, [], $responseBodyString)
+        ]);
+
+        $handler = HandlerStack::create($mock);
+
+        return new Client(["handler" => $handler]);
     }
 
     public function testInstanceOf()
@@ -86,7 +86,9 @@ class OpenExchangeRatesTest extends TestCase
 
     public function testLatestEndpoint()
     {
-        $client = $this->createLatestClient();
+        $client = $this->createClient(
+            $this->getJsonResponseString("latest-success.json")
+        );
         $oxr = new OpenExchangeRates(self::$fakeId, [], $client);
         $responseJsonObject = $oxr->latest();
 
