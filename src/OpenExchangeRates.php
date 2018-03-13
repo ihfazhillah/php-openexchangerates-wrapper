@@ -1,6 +1,7 @@
 <?php namespace OpenExchangeRatesWrapper;
 
 use GuzzleHttp\Client;
+use OpenExchangeRatesWrapper\Helpers\Conversion;
 
 class OpenExchangeRates
 {
@@ -90,6 +91,13 @@ class OpenExchangeRates
     public function usage()
     {
         return $this->handleRequestResponse("status");
+    }
+
+    public function nativeConvert(float $value, string $to)
+    {
+        $latest = $this->latest();
+        $conversion = new Conversion($latest->rates);
+        return $conversion->convert($value, $to);
     }
 
 }

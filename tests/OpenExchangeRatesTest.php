@@ -200,6 +200,24 @@ class OpenExchangeRatesTest extends TestCase
         $this->assertObjectHasAttribute("usage", $response->data);
     }
 
+    public function testNativeConvert(): void
+    {
+        $responseString = $this->getJsonResponseString("latest-success.json");
+        $client = $this->createClient($responseString);
 
+        $oxr = new OpenExchangeRates(self::$fakeId, [], $client);
+
+        $this->assertEquals(
+            12,
+            $oxr->nativeConvert(6, "BBD")
+        );
+
+        $client = $this->createClient($responseString);
+        $oxr = new OpenExchangeRates(self::$fakeId, [], $client);
+        $this->assertEquals(
+            20,
+            $oxr->nativeConvert(10, "BBD")
+        );
+    }
 }
 
