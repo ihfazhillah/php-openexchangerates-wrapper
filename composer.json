@@ -21,7 +21,8 @@
       "OpenExchangeRatesWrapper\\": ["src/"],
       "OpenExchangeRatesWrapper\\Endpoints\\": ["src/endpoints/"],
       "OpenExchangeRatesWrapper\\Exceptions\\": ["src/exceptions/"],
-      "OpenExchangeRatesWrapper\\Helpers\\": ["src/helpers"]
+      "OpenExchangeRatesWrapper\\Helpers\\": ["src/helpers/"],
+      "OpenExchangeRatesWrapper\\Caches\\" : ["src/caches/"
     }
   },
   "scripts": {
