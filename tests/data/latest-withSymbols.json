@@ -1,0 +1,10 @@
+{
+    "disclaimer": "Usage subject to terms: https://openexchangerates.org/terms",
+    "license": "https://openexchangerates.org/license",
+    "timestamp": 1520917185,
+    "base": "USD",
+    "rates": {
+        "IDR": 13759.980429,
+        "SAR": 3.75045
+    }
+}
