@@ -3,8 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use OpenExchangeRatesWrapper\Response;
 use OpenExchangeRatesWrapper\Exceptions\OpenExchangeRatesException;
-
-
+use GuzzleHttp\Psr7\Response as ResponseClient;
 
 //  $errorJson = json_decode($errorJsonString);
 
@@ -21,7 +20,7 @@ class ResponseTest extends TestCase
 
     public function testParseResponseWithError(): void
     {
-        $errorJson = json_decode('{
+        $errorResponse =  new ResponseClient(200, [], '{
   "error": true,
   "status": 401,
   "message": "invalid_app_id",
@@ -31,12 +30,12 @@ class ResponseTest extends TestCase
         $this->expectExceptionMessage("invalid_app_id");
         $this->expectExceptionCode(401);
 
-        Response::handleResponse($errorJson);
+        Response::handleResponse($errorResponse);
     }
 
     public function testResponseSuccess(): void
     {
-        $response = json_decode('{"status": 200}');
+        $response = new ResponseClient(200, [], '{"status": 200}');
 
         $this->assertEquals(
             200,

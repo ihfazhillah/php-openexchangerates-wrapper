@@ -30,9 +30,6 @@ class OpenExchangeRates
     {
         $latestEndpoint = $this->endpoint->getEndpointInstance("latest");
         $response = $this->client->get($latestEndpoint->getEndpoint());
-        $responseBody = $response->getBody();
-        $responseJson = json_decode($responseBody);
-
-        return Response::handleResponse($responseJson);
+        return Response::handleResponse($response);
     }
 }
