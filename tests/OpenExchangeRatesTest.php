@@ -202,5 +202,16 @@ class OpenExchangeRatesTest extends TestCase
         $this->assertObjectHasAttribute($end, $response->rates);
     }
 
+    public function testUsage()
+    {
+        $oxr = new OpenExchangeRates($this->id);
+        $response = $oxr->usage();
+
+        $this->assertObjectHasAttribute("data", $response);
+        $this->assertObjectHasAttribute("plan", $response->data);
+        $this->assertObjectHasAttribute("usage", $response->data);
+    }
+
+
 }
 

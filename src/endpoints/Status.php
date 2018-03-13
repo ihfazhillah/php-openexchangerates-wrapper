@@ -2,6 +2,6 @@
 
 class Status extends Base
 {
-    protected static $name = "status.json";
+    protected static $name = "usage.json";
     protected static $allowedQueries = [];
 }

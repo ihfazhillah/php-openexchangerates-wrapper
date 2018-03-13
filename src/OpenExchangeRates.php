@@ -92,4 +92,12 @@ class OpenExchangeRates
         return Response::handleResponse($response);
     }
 
+    public function usage()
+    {
+        $endpoint = $this->endpoint->getEndpointInstance("status");
+        $url = $endpoint->getEndpoint();
+        $response = $this->client->get($url);
+        return Response::handleResponse($response);
+    }
+
 }
