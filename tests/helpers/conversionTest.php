@@ -42,4 +42,22 @@ class TestConversionHelper extends TestCase
             $conversion->convert(4, "AKU")
         );
     }
+
+    public function testInvalidArgumentExceptionWhenToNotFound(): void
+    {
+        $conversion = new Conversion($this->rates);
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("YOU currency not available");
+        $conversion->convert(10, "YOU");
+    }
+
+    public function testInvalidArgumentExceptionWhenNoRates(): void
+    {
+        $conversion = new Conversion();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("AKU currency not available");
+        $conversion->convert(10, "AKU");
+    }
 }
