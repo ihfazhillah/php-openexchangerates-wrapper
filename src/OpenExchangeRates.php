@@ -26,11 +26,18 @@ class OpenExchangeRates
         return $this->options;
     }
 
+
+    protected function handleRequestResponse(string $endpointName, array $options = []): object
+    {
+        $endpoint = $this->endpoint->getEndpointInstance($endpointName);
+        $url = $endpoint->getEndpoint($options);
+        $response = $this->client->get($url);
+        return Response::handleResponse($response);
+    }
+
     public function latest(array $options = []): object
     {
-        $latestEndpoint = $this->endpoint->getEndpointInstance("latest");
-        $response = $this->client->get($latestEndpoint->getEndpoint($options));
-        return Response::handleResponse($response);
+        return $this->handleRequestResponse("latest", $options);
     }
 
     public function historical(string $date, array $options = []): object
@@ -42,10 +49,7 @@ class OpenExchangeRates
 
     public function currencies(array $options = [])
     {
-        $endpoint = $this->endpoint->getEndpointInstance("currencies");
-        $endpointUrl = $endpoint->getEndpoint($options);
-        $response = $this->client->get($endpointUrl);
-        return Response::handleResponse($response);
+        return $this->handleRequestResponse("currencies", $options);
     }
 
     public function timeSeries(string $start, string $end, $options): object
@@ -53,12 +57,9 @@ class OpenExchangeRates
     /**
      * this function not tested, we not have a plan with this endpoint
      */
-        $endpoint = $this->endpoint->getEndpointInstance("time-series");
         $options['start'] = $start;
         $options['end'] = $end;
-        $endpointUrl = $endpoint->getEndpoint($options);
-        $response = $this->client->get($endpointUrl);
-        return Response::handleResponse($response);
+        return $this->handleRequestResponse("time-series", $options);
     }
 
     public function convert(float $value, string $from, string $to, array $options): object
@@ -70,11 +71,8 @@ class OpenExchangeRates
         $options["value"] = $value;
         $options["from"] = $from;
         $options["to"] = $to;
+        return $this->handleRequestResponse("convert", $options);
 
-        $endpoint = $this->endpoint->getEndpointInstance("convert");
-        $url = $endpoint->getEndpoint($options);
-        $response = $this->client->get($url);
-        return Response::handleResponse($response);
     }
 
     public function ohlc(string $start_time, string $period, array $options)
@@ -86,18 +84,12 @@ class OpenExchangeRates
         $options["start_time"] = $start_time;
         $options["period"] = $period;
 
-        $endpoint = $this->endpoint->getEndpointInstance("ohlc");
-        $url = $endpoint->getEndpoint($options);
-        $response = $this->client->get($url);
-        return Response::handleResponse($response);
+        return $this->handleRequestResponse("ohlc", $options);
     }
 
     public function usage()
     {
-        $endpoint = $this->endpoint->getEndpointInstance("status");
-        $url = $endpoint->getEndpoint();
-        $response = $this->client->get($url);
-        return Response::handleResponse($response);
+        return $this->handleRequestResponse("status");
     }
 
 }
