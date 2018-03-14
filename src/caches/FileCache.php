@@ -15,7 +15,6 @@ class FileCache
 
         $this->expiredAfter = $expiredAfter ? $expiredAfter : 24;
     }
-
     public function getCacheDir(): string
     {
         return $this->cacheDir;
