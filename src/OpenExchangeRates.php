@@ -1,6 +1,7 @@
 <?php namespace OpenExchangeRatesWrapper;
 
 use GuzzleHttp\Client;
+use OpenExchangeRatesWrapper\caches\FileCache;
 use OpenExchangeRatesWrapper\Helpers\Conversion;
 
 class OpenExchangeRates
@@ -9,12 +10,16 @@ class OpenExchangeRates
         "https" => false,
     ];
 
+    protected $cacheHandler;
+
     public function __construct(string $app_id, array $options = [], Client $client = null)
     {
         $this->app_id = $app_id;
         $this->options = empty($options) ? self::$defaultOptions : $options;
         $this->client = $client ? $client : new Client(["http_errors" => false]);
         $this->endpoint = new Endpoint($app_id, $options);
+
+        $this->cacheHandler = isset($options['cacheHandler']) ? $options['cacheHandler'] : new FileCache();
     }
 
     public function getAppId(): string
@@ -25,6 +30,11 @@ class OpenExchangeRates
     public function getOptions(): array
     {
         return $this->options;
+    }
+
+    public function getCacheHandler()
+    {
+        return $this->cacheHandler;
     }
 
     protected function handleRequestResponse(string $endpointName, array $options = []): object
