@@ -87,6 +87,13 @@ class OpenExchangeWithCacheTest extends TestCase
             $latestFromApi,
             json_decode($latestFromCache->value)
         );
+
+        $latestAgain = $oxr->latest();
+        $this->assertEquals(
+            $latestAgain,
+            json_decode($latestFromCache->value)
+        );
+
     }
 
     public function testCacheHandlerNotCachingWhenNotSpecified(): void

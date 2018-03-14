@@ -1,6 +1,7 @@
 <?php namespace OpenExchangeRatesWrapper;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response as ResponseClient;
 use OpenExchangeRatesWrapper\Helpers\Conversion;
 
 class OpenExchangeRates
@@ -43,7 +44,8 @@ class OpenExchangeRates
             $fromCache = $this->cacheHandler->get($endpointName);
 
             if ($fromCache) {
-                return Response::handleResponse($fromCache->value);
+                $response = new ResponseClient(200, [], $fromCache->value);
+                return Response::handleResponse($response);
             }
         }
     }
