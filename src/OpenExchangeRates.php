@@ -39,6 +39,14 @@ class OpenExchangeRates
 
     protected function handleRequestResponse(string $endpointName, array $options = []): object
     {
+        if ($this->cacheHandler) {
+            $fromCache = $this->cacheHandler->get($endpointName);
+
+            if ($fromCache) {
+                return Response::handleResponse($fromCache->value);
+            }
+        }
+
         $endpoint = $this->endpoint->getEndpointInstance($endpointName);
         $url = $endpoint->getEndpoint($options);
         $response = $this->client->get($url);
