@@ -80,11 +80,12 @@ class OpenExchangeWithCacheTest extends TestCase
 
         $this->assertTrue($this->root->hasChild("caches/latest.json"));
 
-        $latestFromCache = $oxr->latest();
+        $latestFromCache = json_decode($this->root->getChild("caches/latest.json")
+                ->getContent());
 
         $this->assertEquals(
             $latestFromApi,
-            $latestFromCache
+            json_decode($latestFromCache->value)
         );
     }
 
@@ -95,6 +96,10 @@ class OpenExchangeWithCacheTest extends TestCase
                 "no id from env"
             );
         }
+        // skip now
+        $this->markTestSkipped(
+            "comment or delete this if you will testing this again"
+        );
 
         $oxr = new OpenExchangeRates($this->id);
 

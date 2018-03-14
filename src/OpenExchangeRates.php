@@ -36,8 +36,9 @@ class OpenExchangeRates
         return $this->cacheHandler;
     }
 
-    protected function handleRequestResponse(string $endpointName, array $options = []): object
+    protected function handleGetFromCache(string $endpointName)
     {
+
         if ($this->cacheHandler) {
             $fromCache = $this->cacheHandler->get($endpointName);
 
@@ -45,10 +46,26 @@ class OpenExchangeRates
                 return Response::handleResponse($fromCache->value);
             }
         }
+    }
+
+    protected function handleSetToCache(string $endpointName, string $responseBody)
+    {
+        if ($this->cacheHandler) {
+            $this->cacheHandler->set($endpointName, $responseBody);
+        }
+    }
+
+    protected function handleRequestResponse(string $endpointName, array $options = []): object
+    {
+
+        $this->handleGetFromCache($endpointName);
 
         $endpoint = $this->endpoint->getEndpointInstance($endpointName);
         $url = $endpoint->getEndpoint($options);
         $response = $this->client->get($url);
+
+        $this->handleSetToCache($endpointName, $response->getBody());
+
         return Response::handleResponse($response);
     }
 
