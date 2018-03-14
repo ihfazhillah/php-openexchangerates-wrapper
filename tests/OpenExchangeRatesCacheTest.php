@@ -115,4 +115,21 @@ class OpenExchangeWithCacheTest extends TestCase
 
     }
 
+    public function testShouldNotCacheStatusEndpoint(): void
+    {
+        // skip now
+        $this->markTestSkipped(
+            "comment or delete this if you will testing this again"
+        );
+        $cache = new FileCache(12, vfsStream::url("mydir"));
+        $oxr = new OpenExchangeRates($this->id, [
+            "cacheHandler" => $cache,
+        ]);
+
+        $this->assertFalse($this->root->hasChild('caches/status.json'));
+        $oxr->usage();
+        $this->assertFalse($this->root->hasChild('caches/status.json'));
+
+    }
+
 }

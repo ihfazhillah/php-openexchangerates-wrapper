@@ -36,10 +36,10 @@ class OpenExchangeRates
         return $this->cacheHandler;
     }
 
-    protected function handleGetFromCache(string $endpointName)
+    protected function handleGetFromCache(string $endpointName, bool $skipCache)
     {
 
-        if ($this->cacheHandler) {
+        if ($this->cacheHandler && !$skipCache) {
             $fromCache = $this->cacheHandler->get($endpointName);
 
             if ($fromCache) {
@@ -48,9 +48,9 @@ class OpenExchangeRates
         }
     }
 
-    protected function handleSetToCache(string $endpointName, string $responseBody)
+    protected function handleSetToCache(string $endpointName, string $responseBody, bool $skip_cache)
     {
-        if ($this->cacheHandler) {
+        if ($this->cacheHandler && !$skip_cache) {
             $this->cacheHandler->set($endpointName, $responseBody);
         }
     }
@@ -58,13 +58,16 @@ class OpenExchangeRates
     protected function handleRequestResponse(string $endpointName, array $options = []): object
     {
 
-        $this->handleGetFromCache($endpointName);
+        $skip_cache = isset($options['skip_cache']) && $options['skip_cache'] ? true : false;
+        unset($options['skip_cache']);
+
+        $this->handleGetFromCache($endpointName, $skip_cache);
 
         $endpoint = $this->endpoint->getEndpointInstance($endpointName);
         $url = $endpoint->getEndpoint($options);
         $response = $this->client->get($url);
 
-        $this->handleSetToCache($endpointName, $response->getBody());
+        $this->handleSetToCache($endpointName, $response->getBody(), $skip_cache);
 
         return Response::handleResponse($response);
     }
@@ -123,7 +126,9 @@ class OpenExchangeRates
 
     public function usage()
     {
-        return $this->handleRequestResponse("status");
+        return $this->handleRequestResponse("status", [
+            "skip_cache" => true,
+        ]);
     }
 
     public function nativeConvert(float $value, string $to): float
