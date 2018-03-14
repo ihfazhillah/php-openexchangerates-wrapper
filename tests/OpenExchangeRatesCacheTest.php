@@ -29,14 +29,10 @@ class OpenExchangeWithCacheTest extends TestCase
         $cache = $oxr->getCacheHandler();
 
         $this->assertEquals(
-            24, // in hours
-            $cache->getExpireAfter()
-        );
-
-        $this->assertInstanceOf(
-            FileCache::class,
+            null,
             $cache
         );
+
     }
 
     public function testCustomCacheHandler(): void
@@ -90,6 +86,28 @@ class OpenExchangeWithCacheTest extends TestCase
             $latestFromApi,
             $latestFromCache
         );
+    }
+
+    public function testCacheHandlerNotCachingWhenNotSpecified(): void
+    {
+        if (!$this->id) {
+            $this->markTestSkipped(
+                "no id from env"
+            );
+        }
+
+        $oxr = new OpenExchangeRates($this->id);
+
+        $this->assertFalse($this->root->hasChild("caches/latest.json"));
+
+        $latest = $oxr->latest();
+
+        $this->assertFalse($this->root->hasChild("caches/latest.json"));
+
+        $fullpath = realpath(__DIR__ . '/../caches/latest.json');
+
+        $this->assertFalse(file_exists($fullpath));
+
     }
 
 }
