@@ -88,4 +88,26 @@ class FileCacheTest extends TestCase
         $this->assertTrue($this->root->hasChild("caches/hello", "file hello should exists"));
     }
 
+    public function testIsValidDate(): void
+    {
+        $timestamp = time();
+
+        $cache = new FileCache(1/360, vfsStream::url("mydir"));
+        $this->assertTrue($cache->isValidTime($timestamp));
+        $timestamp -= 10;
+        $this->assertFalse($cache->isValidTime($timestamp));
+    }
+
+    public function testExpiredAt(): void
+    {
+        $timestamp = time();
+        $expiredAt = $timestamp + 10;
+
+        $cache = new FileCache(1/360, vfsStream::url("mydir"));
+        $this->assertEquals(
+            $expiredAt,
+            $cache->getExpiredAt($timestamp)
+        );
+    }
+
 }

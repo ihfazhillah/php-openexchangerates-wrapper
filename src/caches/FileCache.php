@@ -53,5 +53,15 @@ class FileCache
         }
     }
 
+    public function isValidTime(int $timestamp): bool
+    {
+        $expiredAt = $timestamp + $this->getExpireAfterSeconds();
 
+        return time() < $expiredAt;
+    }
+
+    public function getExpiredAt(int $timestamp)
+    {
+        return $timestamp + $this->getExpireAfterSeconds();
+    }
 }
