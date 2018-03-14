@@ -1,7 +1,6 @@
 <?php namespace OpenExchangeRatesWrapper;
 
 use GuzzleHttp\Client;
-use OpenExchangeRatesWrapper\caches\FileCache;
 use OpenExchangeRatesWrapper\Helpers\Conversion;
 
 class OpenExchangeRates
@@ -19,7 +18,7 @@ class OpenExchangeRates
         $this->client = $client ? $client : new Client(["http_errors" => false]);
         $this->endpoint = new Endpoint($app_id, $options);
 
-        $this->cacheHandler = isset($options['cacheHandler']) ? $options['cacheHandler'] : new FileCache();
+        $this->cacheHandler = isset($options['cacheHandler']) ? $options['cacheHandler'] : null;
     }
 
     public function getAppId(): string
