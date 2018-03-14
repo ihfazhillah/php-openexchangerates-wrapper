@@ -9,8 +9,7 @@ class FileCache
     {
         $this->cacheDir = $cacheDir ? $cacheDir : realpath($this->defaultDir);
 
-        if (file_exists($this->cacheDir) === false)
-        {
+        if (file_exists($this->cacheDir) === false) {
             throw new \InvalidArgumentException($this->cacheDir . " dir not found");
         }
 
@@ -19,7 +18,7 @@ class FileCache
 
     public function getCacheDir(): string
     {
-        return $this->cacheDir ;
+        return $this->cacheDir;
     }
 
     public function getExpireAfter(): float
@@ -36,7 +35,7 @@ class FileCache
     {
         $this->childCacheDir = $this->cacheDir . "/caches";
 
-        if (file_exists($this->childCacheDir) === false){
+        if (file_exists($this->childCacheDir) === false) {
             mkdir($this->childCacheDir, 0775);
         }
     }
@@ -46,11 +45,12 @@ class FileCache
         $this->setDirectory();
         $fullname = $this->childCacheDir . "/" . $name;
 
-        if (file_exists($fullname) === false)
-        {
+        if (file_exists($fullname) === false) {
             $handle = fopen($fullname, 'w');
             fclose($handle);
         }
+
+        return $fullname;
     }
 
     public function isValidTime(int $timestamp): bool
@@ -64,4 +64,42 @@ class FileCache
     {
         return $timestamp + $this->getExpireAfterSeconds();
     }
+
+    public function set(string $key, string $value)
+    {
+
+        $contentOld = $this->get($key);
+
+        if ($contentOld) {
+            return false;
+        }
+
+        $fullname = $this->setFile($key . ".json");
+
+        $content = [
+            "timestamp" => time(),
+            "value" => $value,
+        ];
+
+        file_put_contents($fullname, json_encode($content));
+    }
+
+    public function get(string $key)
+    {
+        $filename = $this->setFile($key . ".json");
+        $content = file_get_contents($filename);
+
+        if (!$content) {
+            return false;
+        }
+
+        $contentJson = json_decode($content);
+
+        if (!$this->isValidTime($contentJson->timestamp)) {
+            return false;
+        }
+
+        return $contentJson;
+    }
+
 }
