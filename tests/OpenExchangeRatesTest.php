@@ -1,8 +1,8 @@
 <?php
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use OpenExchangeRatesWrapper\Endpoint;
 use OpenExchangeRatesWrapper\OpenExchangeRates;
@@ -16,8 +16,7 @@ class OpenExchangeRatesTest extends TestCase
     protected function setUp()
     {
         $id = getenv("OPENEXCHANGERATES_ID", true);
-        if (!$id)
-        {
+        if (!$id) {
             $this->markTestSkipped(
                 "no OPENEXCHANGERATES_ID environment var"
             );
@@ -62,7 +61,7 @@ class OpenExchangeRatesTest extends TestCase
     public function testGetOptions()
     {
         $options = [
-            "https" => true
+            "https" => true,
         ];
         $this->assertEquals(
             $options,
@@ -74,7 +73,7 @@ class OpenExchangeRatesTest extends TestCase
     {
         $this->assertEquals(
             [
-                "https" => false
+                "https" => false,
             ],
             (new OpenExchangeRates(self::$fakeId))->getOptions()
         );
@@ -142,7 +141,7 @@ class OpenExchangeRatesTest extends TestCase
         $dateString = "2017-01-01";
         $oxr = new OpenExchangeRates($this->id);
         $response = $oxr->historical($dateString, [
-            "symbols" => "IDR"
+            "symbols" => "IDR",
         ]);
 
         $this->assertEquals(
@@ -169,7 +168,7 @@ class OpenExchangeRatesTest extends TestCase
         $this->markTestSkipped();
         $oxr = new OpenExchangeRates($this->id);
         $response = $oxr->currencies([
-            "show_alternative" => true
+            "show_alternative" => true,
         ]);
         $this->assertObjectHasAttribute("IDR", $response);
         $this->assertObjectHasAttribute("VEF_BLKMKT", $response);
@@ -219,4 +218,3 @@ class OpenExchangeRatesTest extends TestCase
         );
     }
 }
-
