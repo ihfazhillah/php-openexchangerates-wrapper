@@ -6,7 +6,7 @@ use OpenExchangeRatesWrapper\Helpers\Conversion;
 class OpenExchangeRates
 {
     protected static $defaultOptions = [
-        "https" => false
+        "https" => false,
     ];
 
     public function __construct(string $app_id, array $options = [], Client $client = null)
@@ -26,7 +26,6 @@ class OpenExchangeRates
     {
         return $this->options;
     }
-
 
     protected function handleRequestResponse(string $endpointName, array $options = []): object
     {
@@ -55,9 +54,9 @@ class OpenExchangeRates
 
     public function timeSeries(string $start, string $end, $options): object
     {
-    /**
-     * this function not tested, we not have a plan with this endpoint
-     */
+        /**
+         * this function not tested, we not have a plan with this endpoint
+         */
         $options['start'] = $start;
         $options['end'] = $end;
         return $this->handleRequestResponse("time-series", $options);
@@ -65,9 +64,9 @@ class OpenExchangeRates
 
     public function convert(float $value, string $from, string $to, array $options): object
     {
-    /**
-     * not tested, same as above
-     */
+        /**
+         * not tested, same as above
+         */
 
         $options["value"] = $value;
         $options["from"] = $from;
@@ -78,9 +77,9 @@ class OpenExchangeRates
 
     public function ohlc(string $start_time, string $period, array $options)
     {
-    /**
-     * not tested, same as above
-     */
+        /**
+         * not tested, same as above
+         */
 
         $options["start_time"] = $start_time;
         $options["period"] = $period;
