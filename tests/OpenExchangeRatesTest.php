@@ -1,13 +1,12 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-
-use OpenExchangeRatesWrapper\OpenExchangeRates;
 use OpenExchangeRatesWrapper\Endpoint;
+use OpenExchangeRatesWrapper\OpenExchangeRates;
+use PHPUnit\Framework\TestCase;
 
 class OpenExchangeRatesTest extends TestCase
 {

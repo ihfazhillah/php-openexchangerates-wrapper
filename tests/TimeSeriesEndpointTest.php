@@ -1,8 +1,8 @@
-<?php 
+<?php
 
-use PHPUnit\Framework\TestCase;
-use OpenExchangeRatesWrapper\Endpoints\TimeSeries;
 use OpenExchangeRatesWrapper\Endpoints\Base;
+use OpenExchangeRatesWrapper\Endpoints\TimeSeries;
+use PHPUnit\Framework\TestCase;
 
 class TestTimeSeriesEndpoint extends TestCase 
 {

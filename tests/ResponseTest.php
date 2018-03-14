@@ -1,9 +1,9 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use OpenExchangeRatesWrapper\Response;
-use OpenExchangeRatesWrapper\Exceptions\OpenExchangeRatesException;
 use GuzzleHttp\Psr7\Response as ResponseClient;
+use OpenExchangeRatesWrapper\Exceptions\OpenExchangeRatesException;
+use OpenExchangeRatesWrapper\Response;
+use PHPUnit\Framework\TestCase;
 
 //  $errorJson = json_decode($errorJsonString);
 

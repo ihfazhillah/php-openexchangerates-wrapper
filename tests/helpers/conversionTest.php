@@ -1,8 +1,7 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
 use OpenExchangeRatesWrapper\Helpers\Conversion;
-
+use PHPUnit\Framework\TestCase;
 
 class TestConversionHelper extends TestCase
 {

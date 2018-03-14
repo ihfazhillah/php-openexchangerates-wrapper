@@ -1,8 +1,8 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use OpenExchangeRatesWrapper\Endpoints\Status;
 use OpenExchangeRatesWrapper\Endpoints\Base;
+use OpenExchangeRatesWrapper\Endpoints\Status;
+use PHPUnit\Framework\TestCase;
 
 class StatusEndpointTest extends TestCase 
 {

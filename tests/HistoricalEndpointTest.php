@@ -1,8 +1,8 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use OpenExchangeRatesWrapper\Endpoints\Historical;
 use OpenExchangeRatesWrapper\Endpoints\Base;
+use OpenExchangeRatesWrapper\Endpoints\Historical;
+use PHPUnit\Framework\TestCase;
 
 class HistoricalEndpointTest extends TestCase
 {

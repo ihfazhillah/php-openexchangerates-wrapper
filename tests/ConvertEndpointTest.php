@@ -1,8 +1,8 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use OpenExchangeRatesWrapper\Endpoints\Convert;
 use OpenExchangeRatesWrapper\Endpoints\Base;
+use OpenExchangeRatesWrapper\Endpoints\Convert;
+use PHPUnit\Framework\TestCase;
 
 class ConvertEndpointTest extends TestCase
 {

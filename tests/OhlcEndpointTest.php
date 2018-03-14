@@ -1,8 +1,8 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use OpenExchangeRatesWrapper\Endpoints\OHLC;
 use OpenExchangeRatesWrapper\Endpoints\Base;
+use OpenExchangeRatesWrapper\Endpoints\OHLC;
+use PHPUnit\Framework\TestCase;
 
 class OhlcEndpointTest extends TestCase
 {
