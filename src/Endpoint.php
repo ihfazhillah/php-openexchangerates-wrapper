@@ -32,16 +32,6 @@ class Endpoint
 
     }
 
-    public function getBaseEndpoint()
-    {
-        if ($this->options["https"]) {
-            $protocol = "https";
-        } else {
-            $protocol = "http";
-        }
-        return $protocol . self::$BASE_ENDPOINT;
-    }
-
     public function getAllowedEndpoints()
     {
         return self::$allowedEndpoints;
