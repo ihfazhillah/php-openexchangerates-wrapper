@@ -9,6 +9,15 @@ class OpenExchangeWithCacheTest extends TestCase
 {
     protected static $fakeId = "hello";
 
+    private function invokeMethod($object, $methodName, $params = [])
+    {
+        $reflection = new \ReflectionClass(get_class($object));
+        $method = $reflection->getMethod($methodName);
+        $method->setAccessible(true);
+
+        return $method->invokeArgs($object, $params);
+    }
+
     public function setUp()
     {
         $this->root = vfsStream::setup("mydir");
@@ -137,6 +146,95 @@ class OpenExchangeWithCacheTest extends TestCase
         $oxr->usage();
         $this->assertFalse($this->root->hasChild('caches/status.json'));
 
+    }
+
+    public function testHandleSetToCache(): void
+    {
+        $cache = new FileCache(12, vfsStream::url("mydir"));
+        $oxr = new OpenExchangeRates($this->id, [
+            "cacheHandler" => $cache,
+        ]);
+
+        $this->assertFalse($this->root->hasChild('caches/latest.json'));
+        $this->invokeMethod($oxr, 'handleSetToCache', [
+            'latest', 'hello world', false,
+        ]);
+
+        $this->assertTrue($this->root->hasChild('caches/latest.json'));
+    }
+
+    public function testHandleGetFromCacheIfFileNotValid(): void
+    {
+        vfsStream::newFile("caches/hello.json")
+            ->at($this->root);
+
+        $cache = new FileCache(12, vfsStream::url("mydir"));
+        $oxr = new OpenExchangeRates($this->id, [
+            "cacheHandler" => $cache,
+        ]);
+
+        $this->assertNull(
+            $this->invokeMethod($oxr, 'handleGetFromCache', ['hello'])
+        );
+
+    }
+
+    public function testHandleGetFromCacheIfFileNoValueArg(): void
+    {
+        vfsStream::newFile("caches/hello.json")
+            ->at($this->root)
+            ->setContent(json_encode(['timestamp' => 'timestamp']));
+
+        $cache = new FileCache(12, vfsStream::url("mydir"));
+        $oxr = new OpenExchangeRates($this->id, [
+            "cacheHandler" => $cache,
+        ]);
+
+        $this->assertNull(
+            $this->invokeMethod($oxr, 'handleGetFromCache', ['hello'])
+        );
+    }
+
+    public function testHandleGetFromCacheIfFileNoTimestampArg(): void
+    {
+
+        vfsStream::newFile("caches/hello.json")
+            ->at($this->root)
+            ->setContent(json_encode(['value' => 'timestamp']));
+
+        $cache = new FileCache(12, vfsStream::url("mydir"));
+        $oxr = new OpenExchangeRates($this->id, [
+            "cacheHandler" => $cache,
+        ]);
+
+        $this->assertNull(
+            $this->invokeMethod($oxr, 'handleGetFromCache', ['hello'])
+        );
+    }
+
+    public function testHandleGetFromCache(): void
+    {
+
+        $timestamp = time();
+
+        vfsStream::newFile("caches/hello.json")
+            ->at($this->root)
+            ->setContent(json_encode([
+                'value' => '{"name" : "me"}',
+                'timestamp' => $timestamp,
+            ]));
+
+        $cache = new FileCache(12, vfsStream::url("mydir"));
+        $oxr = new OpenExchangeRates($this->id, [
+            "cacheHandler" => $cache,
+        ]);
+
+        $response = $this->invokeMethod($oxr, 'handleGetFromCache', ['hello']);
+
+        $this->assertEquals(
+            'me',
+            $response->name
+        );
     }
 
 }

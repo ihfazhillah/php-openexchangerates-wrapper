@@ -37,7 +37,7 @@ class OpenExchangeRates
         return $this->cacheHandler;
     }
 
-    protected function handleGetFromCache(string $endpointName, bool $skipCache)
+    protected function handleGetFromCache(string $endpointName, bool $skipCache = false)
     {
 
         if ($this->cacheHandler && !$skipCache) {
