@@ -4,6 +4,25 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response as ResponseClient;
 use OpenExchangeRatesWrapper\Helpers\Conversion;
 
+/**
+ * simple php wrapper of openexchangerates.org
+ *
+ * ## Quickstart
+ * ```
+ * $oxr = new OpenExchangeRates('YOUR APP ID');
+ * $latest = $oxr->latest();
+ * var_dump($latest);
+ * ```
+ * or if you wish to use https
+ * ```
+ * $oxr = new OpenExchangeRates('YOUR APP ID', ['https' => true]);
+ * $historical = $oxr->historical(['date' => '2017-09-10']);
+ * ```
+ *
+ * @param string $app_id  your app id, its required
+ * @param string $options  you can pass `https` with boolean value and `cacheHandler` with instance of `OpenExchangeRatesWrapper\Caches\FileCache` value
+ * @param GuzzleHttp\Client $client
+ */
 class OpenExchangeRates
 {
     protected static $defaultOptions = [
@@ -74,16 +93,51 @@ class OpenExchangeRates
         return Response::handleResponse($response);
     }
 
+    /**
+     * get latest rates from openexchangerates.org
+     *
+     * accepts `base`, `symbols`, `show_alternative` options.
+     * 1. symbols = comma separated value like `'IDR,SAR'`
+     * 2. show_alternative = boolean
+     *
+     * example:
+     *
+     * ```
+     * $latest = $oxr->latest(); // you will get all currencies
+     * $latestWithAlternative = $oxr->latest(['show_alternative' => true]); // note you should pass true as boolean not string
+     * $latestWithBase = $oxr->latest(['base' => 'IDR']); // not for free plan
+     * $latestWithSpecifiedSymbols = $oxr->latest(['symbols' => 'IDR,SAR,SGD']); // value is comma separated value
+     * ```
+     *
+     * @param array $options
+     * @return object json_decoded from response
+     */
     public function latest(array $options = []): object
     {
         return $this->handleRequestResponse("latest", $options);
     }
 
-    public function historical(string $date, array $options = []): object
+    /**
+     * get historical exchange rates from any date.
+     *
+     * Required options:
+     * 1. date : with YYYY-MM-DD format
+     *
+     * another allowed options are:
+     * 1. base : to change base
+     * 2. show_alternative : true or false (bool)
+     * 3. symbols: comma separated value of currency code
+     *
+     * ```
+     * $historical = $oxr->historical(['date' => '2018-01-29']);
+     * ```
+     *
+     * @param array $options
+     * @return object json_decoded from response
+     */
+    public function historical(array $options = []): object
     {
-        $endpoint = $this->endpoint->getEndpointInstance("historical");
-        $response = $this->client->get($endpoint->getEndpoint($options, $date));
-        return Response::handleResponse($response);
+        return $this->handleRequestResponse("historical", $options);
     }
 
     public function currencies(array $options = [])

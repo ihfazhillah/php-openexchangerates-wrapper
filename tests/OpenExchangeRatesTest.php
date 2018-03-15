@@ -122,10 +122,9 @@ class OpenExchangeRatesTest extends TestCase
 
     public function testHistoricalEndpoint()
     {
-        $this->markTestSkipped();
         $dateString = "2017-01-01";
         $oxr = new OpenExchangeRates($this->id);
-        $response = $oxr->historical($dateString);
+        $response = $oxr->historical(['date' => $dateString]);
 
         $this->assertEquals(
             $dateString,
@@ -137,10 +136,10 @@ class OpenExchangeRatesTest extends TestCase
 
     public function testHistoricalEndpointWithSymbols()
     {
-        $this->markTestSkipped();
         $dateString = "2017-01-01";
         $oxr = new OpenExchangeRates($this->id);
-        $response = $oxr->historical($dateString, [
+        $response = $oxr->historical([
+            'date' => $dateString,
             "symbols" => "IDR",
         ]);
 
