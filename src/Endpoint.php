@@ -8,8 +8,6 @@ class Endpoint
         'https' => false,
     ];
 
-    protected static $allowedEndpoints = ["latest", "historical", "currencies", "time-series", "convert", "ohlc", "status"];
-
     protected static $endpointMaps = [
         "latest" => "\OpenExchangeRatesWrapper\Endpoints\Latest",
         "historical" => "\OpenExchangeRatesWrapper\Endpoints\Historical",
@@ -34,12 +32,12 @@ class Endpoint
 
     public function getAllowedEndpoints()
     {
-        return self::$allowedEndpoints;
+        return array_keys(self::$endpointMaps);
     }
 
     public function getEndpointInstance(string $endpoint)
     {
-        if (!in_array($endpoint, self::$allowedEndpoints)) {
+        if (!array_key_exists($endpoint, self::$endpointMaps)) {
             throw new \InvalidArgumentException($endpoint . " endpoint not found");
         }
 
