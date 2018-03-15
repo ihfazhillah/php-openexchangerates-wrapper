@@ -140,11 +140,37 @@ class OpenExchangeRates
         return $this->handleRequestResponse("historical", $options);
     }
 
+    /**
+     * get all currencies available from openexchangerates.org
+     *
+     * allowed options:
+     * 1. show_alternative = bool
+     * 2. show_inactive = bool
+     *
+     * @param array $options
+     * @return object json_decoded from response
+     */
     public function currencies(array $options = [])
     {
         return $this->handleRequestResponse("currencies", $options);
     }
 
+    /**
+     * get exchange rates from given period.
+     *
+     * required params:
+     * 1. start = YYYY-MM-DD format
+     * 2. end = YYYY-MM-DD format
+     *
+     * allowed options:
+     * 1. base
+     * 2. show_alternative
+     * 3. symbols
+     *
+     * @param string $start
+     * @param string $end
+     * @return object
+     */
     public function timeSeries(string $start, string $end, $options): object
     {
         /**
@@ -155,6 +181,14 @@ class OpenExchangeRates
         return $this->handleRequestResponse("time-series", $options);
     }
 
+    /**
+     * convert $value $from $to with openexchangerates.org api. Dont confuse with `nativeConvert`
+     *
+     * @param float $value
+     * @param string $from
+     * @param string $to
+     * @return object
+     */
     public function convert(float $value, string $from, string $to, array $options): object
     {
         /**
@@ -180,6 +214,11 @@ class OpenExchangeRates
         return $this->handleRequestResponse("ohlc", $options);
     }
 
+    /**
+     * get status or usage of api
+     *
+     * @return object
+     */
     public function usage()
     {
         return $this->handleRequestResponse("status", [
@@ -187,6 +226,14 @@ class OpenExchangeRates
         ]);
     }
 
+    /**
+     * convert with latest response from openexchangerates.org
+     * note: that from is USD as default, you cannot change this in this version
+     *
+     * @param float $value
+     * @param string $to
+     * @return float
+     */
     public function nativeConvert(float $value, string $to): float
     {
         $latest = $this->latest();
