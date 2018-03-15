@@ -240,4 +240,37 @@ class FileCacheTest extends TestCase
         $this->assertFalse($cache->get("not found"));
     }
 
+    public function testGetFunctionReturnFalseIfNoTimestamp(): void
+    {
+        vfsStream::newFile('caches/hello.json')
+            ->at($this->root)
+            ->setContent(json_encode(['value' => 'value']));
+
+        $cache = new FileCache(1, vfsStream::url('mydir'));
+
+        $this->assertFalse($cache->get('hello'));
+    }
+
+    public function testGetFunctionReturnFalseIfTimestampNotValid(): void
+    {
+        vfsStream::newFile('caches/hello.json')
+            ->at($this->root)
+            ->setContent(json_encode(['timestamp' => 'hello']));
+
+        $cache = new FileCache(1, vfsStream::url('mydir'));
+
+        $this->assertFalse($cache->get('hello'));
+    }
+
+    public function testGetFunctionReturnFalseIfNoValue(): void
+    {
+        vfsStream::newFile('caches/hello.json')
+            ->at($this->root)
+            ->setContent(json_encode(['timestamp' => 123456]));
+
+        $cache = new FileCache(1, vfsStream::url('mydir'));
+
+        $this->assertFalse($cache->get('hello'));
+    }
+
 }
