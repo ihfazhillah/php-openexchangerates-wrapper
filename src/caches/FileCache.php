@@ -94,6 +94,14 @@ class FileCache
 
         $contentJson = json_decode($content);
 
+        if (!property_exists($contentJson, 'timestamp')) {
+            return false;
+        }
+
+        if (!property_exists($contentJson, 'value')) {
+            return false;
+        }
+
         if (!$this->isValidTime($contentJson->timestamp)) {
             return false;
         }
