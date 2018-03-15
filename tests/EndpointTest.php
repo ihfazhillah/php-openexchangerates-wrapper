@@ -23,22 +23,6 @@ class EndpointTest extends TestCase
         new Endpoint();
     }
 
-    public function testGetBaseEndpoint(): void
-    {
-        $this->assertEquals(
-            "http://openexchangerates.org/api/",
-            (new Endpoint(self::$fakeId))->getBaseEndpoint()
-        );
-    }
-
-    public function testGetBaseEndpointHttps(): void
-    {
-        $this->assertEquals(
-            "https://openexchangerates.org/api/",
-            (new Endpoint(self::$fakeId, ["https" => true]))->getBaseEndpoint()
-        );
-    }
-
     public function testGetAllowedEndpoints(): void
     {
         $endpoint = new Endpoint(self::$fakeId);
@@ -65,6 +49,22 @@ class EndpointTest extends TestCase
         $this->expectExceptionMessage("hello endpoint not found");
         $endpoint->getEndpointInstance("hello");
 
+    }
+
+    public function testingHttpsFromEndpointClass(): void
+    {
+        $endpoint = new Endpoint(self::$fakeId, [
+            "https" => true,
+        ]);
+
+        $expected = "https://openexchangerates.org/api/latest.json?app_id=hello_world";
+
+        $latest = $endpoint->getEndpointInstance("latest");
+
+        $this->assertEquals(
+            $expected,
+            $latest->getEndpoint()
+        );
     }
 
 }

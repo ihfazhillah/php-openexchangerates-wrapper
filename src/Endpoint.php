@@ -1,7 +1,5 @@
 <?php namespace OpenExchangeRatesWrapper;
 
-use OpenExchangeRatesWrapper\Endpoints\Latest;
-
 class Endpoint
 {
     protected static $BASE_ENDPOINT = "://openexchangerates.org/api/";
@@ -44,7 +42,6 @@ class Endpoint
         return $protocol . self::$BASE_ENDPOINT;
     }
 
-
     public function getAllowedEndpoints()
     {
         return self::$allowedEndpoints;
@@ -52,11 +49,11 @@ class Endpoint
 
     public function getEndpointInstance(string $endpoint)
     {
-        if (!in_array($endpoint, self::$allowedEndpoints)){
+        if (!in_array($endpoint, self::$allowedEndpoints)) {
             throw new \InvalidArgumentException($endpoint . " endpoint not found");
         }
 
-        return new self::$endpointMaps[$endpoint]($this->app_id);
+        return new self::$endpointMaps[$endpoint]($this->app_id, $this->options);
     }
 
 }
