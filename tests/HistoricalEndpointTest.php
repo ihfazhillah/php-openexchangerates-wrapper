@@ -33,7 +33,7 @@ class HistoricalEndpointTest extends TestCase
             "app_id=hello&show_alternative=true",
             $historical->buildQuery(
                 [
-                    "show_alternative" => true
+                    "show_alternative" => true,
                 ]
             )
         );
@@ -44,7 +44,9 @@ class HistoricalEndpointTest extends TestCase
         $historical = new Historical(self::$fakeId);
         $this->assertEquals(
             "http://openexchangerates.org/api/historical/2018-01-01.json?app_id=hello",
-            $historical->getEndpoint([], "2018-01-01")
+            $historical->getEndpoint([
+                'date' => "2018-01-01",
+            ])
         );
     }
 
@@ -53,7 +55,9 @@ class HistoricalEndpointTest extends TestCase
         $historical = new Historical(self::$fakeId);
         $this->assertEquals(
             "http://openexchangerates.org/api/historical/2016-02-01.json?app_id=hello",
-            $historical->getEndpoint([], "2016-02-01")
+            $historical->getEndpoint([
+                "date" => "2016-02-01",
+            ])
         );
     }
 
