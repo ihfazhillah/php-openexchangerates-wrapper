@@ -16,7 +16,7 @@ use OpenExchangeRatesWrapper\Helpers\Conversion;
  * or if you wish to use https
  * ```
  * $oxr = new OpenExchangeRates('YOUR APP ID', ['https' => true]);
- * $historical = $oxr->historical(['date' => '2017-09-10']);
+ * $historical = $oxr->historical('2017-09-10');
  * ```
  *
  * @param string $app_id  your app id, its required
@@ -120,8 +120,6 @@ class OpenExchangeRates
     /**
      * get historical exchange rates from any date.
      *
-     * Required options:
-     * 1. date : with YYYY-MM-DD format
      *
      * another allowed options are:
      * 1. base : to change base
@@ -132,11 +130,13 @@ class OpenExchangeRates
      * $historical = $oxr->historical(['date' => '2018-01-29']);
      * ```
      *
+     * @param string $date required - YYYY-MM-DD format
      * @param array $options
      * @return object json_decoded from response
      */
-    public function historical(array $options = []): object
+    public function historical(string $date, array $options = []): object
     {
+        $options['date'] = $date;
         return $this->handleRequestResponse("historical", $options);
     }
 

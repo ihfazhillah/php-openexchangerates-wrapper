@@ -124,7 +124,7 @@ class OpenExchangeRatesTest extends TestCase
     {
         $dateString = "2017-01-01";
         $oxr = new OpenExchangeRates($this->id);
-        $response = $oxr->historical(['date' => $dateString]);
+        $response = $oxr->historical($dateString);
 
         $this->assertEquals(
             $dateString,
@@ -138,8 +138,7 @@ class OpenExchangeRatesTest extends TestCase
     {
         $dateString = "2017-01-01";
         $oxr = new OpenExchangeRates($this->id);
-        $response = $oxr->historical([
-            'date' => $dateString,
+        $response = $oxr->historical($dateString, [
             "symbols" => "IDR",
         ]);
 
