@@ -1,14 +1,14 @@
 <?php namespace OpenExchangeRatesWrapper;
 
-use OpenExchangeRatesWrapper\Exceptions\OpenExchangeRatesException;
 use GuzzleHttp\Psr7\Response as ResponseClient;
+use OpenExchangeRatesWrapper\Exceptions\OpenExchangeRatesException;
 
 class Response
 {
-    public static function handleResponse(ResponseClient $json): object
+    public static function handleResponse(ResponseClient $json): \stdClass
     {
         $json = json_decode($json->getBody());
-        if (isset($json->error) && $json->error){
+        if (isset($json->error) && $json->error) {
             throw new OpenExchangeRatesException($json->message, $json->status);
         }
 
