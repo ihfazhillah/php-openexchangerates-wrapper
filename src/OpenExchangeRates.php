@@ -19,6 +19,21 @@ use OpenExchangeRatesWrapper\Helpers\Conversion;
  * $historical = $oxr->historical('2017-09-10');
  * ```
  *
+ * and you can cache the result to json file. Use `OpenExchangeRatesWrapper\Caches\FileCache`.
+ * here the example
+ *
+ * ```
+ * $filecache = new \OpenExchangeRatesWrapper\Caches\FileCache(1, '.'); // 1
+ * $oxr = new \OpenExchangeRatesWrapper\OpenExchangeRates("YOUR APP ID", ['cacheHandler' => $fileCache]);
+ * $oxr->latest(['symbols' => 'IDR,SAR']);
+ * ```
+ *
+ * `FileCache` accept two optional argument. first expireAfter in hours. and second is where the caches dir placed
+ * the, use the instance and pass it to `cacheHandler` value in $options array in the OpenExchangeRates argument.
+ *
+ * In example above, we use the current directory. After you call `latest` method, you can see the `caches/latest.json` file.
+ * that's
+ *
  * @param string $app_id  your app id, its required
  * @param string $options  you can pass `https` with boolean value and `cacheHandler` with instance of `OpenExchangeRatesWrapper\Caches\FileCache` value
  * @param GuzzleHttp\Client $client
