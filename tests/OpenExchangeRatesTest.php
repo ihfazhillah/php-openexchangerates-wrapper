@@ -215,4 +215,13 @@ class OpenExchangeRatesTest extends TestCase
             $oxr->nativeConvert(10, "BBD")
         );
     }
+
+    public function testResulResponseIsInstanceOfStdclass()
+    {
+        $oxr = new OpenExchangeRates($this->id);
+        $this->assertInstanceOf(\Stdclass::class, $oxr->latest());
+        $this->assertInstanceOf(Stdclass::class, $oxr->historical("2017-02-12"));
+        $this->assertInstanceOf(Stdclass::class, $oxr->usage());
+        $this->assertInstanceOf(Stdclass::class, $oxr->currencies());
+    }
 }

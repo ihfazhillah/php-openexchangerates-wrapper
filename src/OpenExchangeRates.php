@@ -91,7 +91,7 @@ class OpenExchangeRates
         }
     }
 
-    protected function handleRequestResponse(string $endpointName, array $options = []): object
+    protected function handleRequestResponse(string $endpointName, array $options = []): \stdClass
     {
 
         $skip_cache = isset($options['skip_cache']) && $options['skip_cache'] ? true : false;
@@ -127,7 +127,7 @@ class OpenExchangeRates
      * @param array $options
      * @return object json_decoded from response
      */
-    public function latest(array $options = []): object
+    public function latest(array $options = []): \stdClass
     {
         return $this->handleRequestResponse("latest", $options);
     }
@@ -149,7 +149,7 @@ class OpenExchangeRates
      * @param array $options
      * @return object json_decoded from response
      */
-    public function historical(string $date, array $options = []): object
+    public function historical(string $date, array $options = []): \stdClass
     {
         $options['date'] = $date;
         return $this->handleRequestResponse("historical", $options);
@@ -165,7 +165,7 @@ class OpenExchangeRates
      * @param array $options
      * @return object json_decoded from response
      */
-    public function currencies(array $options = [])
+    public function currencies(array $options = []): \stdClass
     {
         return $this->handleRequestResponse("currencies", $options);
     }
@@ -186,7 +186,7 @@ class OpenExchangeRates
      * @param string $end
      * @return object
      */
-    public function timeSeries(string $start, string $end, $options): object
+    public function timeSeries(string $start, string $end, $options): \stdClass
     {
         /**
          * this function not tested, we not have a plan with this endpoint
@@ -204,7 +204,7 @@ class OpenExchangeRates
      * @param string $to
      * @return object
      */
-    public function convert(float $value, string $from, string $to, array $options): object
+    public function convert(float $value, string $from, string $to, array $options): \stdClass
     {
         /**
          * not tested, same as above
@@ -217,7 +217,7 @@ class OpenExchangeRates
 
     }
 
-    public function ohlc(string $start_time, string $period, array $options)
+    public function ohlc(string $start_time, string $period, array $options): \stdClass
     {
         /**
          * not tested, same as above
@@ -234,7 +234,7 @@ class OpenExchangeRates
      *
      * @return object
      */
-    public function usage()
+    public function usage(): \stdClass
     {
         return $this->handleRequestResponse("status", [
             "skip_cache" => true,
