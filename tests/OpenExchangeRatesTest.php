@@ -216,6 +216,26 @@ class OpenExchangeRatesTest extends TestCase
         );
     }
 
+    public function testNativeConvertWithBase(): void
+    {
+        $responseString = $this->getJsonResponseString("latest-success.json");
+        $client = $this->createClient($responseString);
+
+        $oxr = new OpenExchangeRates(self::$fakeId, [], $client);
+
+        $this->assertEquals(
+            5,
+            $oxr->nativeConvert(10, "BMD", "BBD")
+        );
+        $client = $this->createClient($responseString);
+        $oxr = new OpenExchangeRates(self::$fakeId, [], $client);
+
+        $this->assertEquals(
+            10,
+            $oxr->nativeConvert(5, "BBD", "USD")
+        );
+    }
+
     public function testResulResponseIsInstanceOfStdclass()
     {
         $oxr = new OpenExchangeRates($this->id);

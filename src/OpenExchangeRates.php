@@ -249,11 +249,12 @@ class OpenExchangeRates
      * @param string $to
      * @return float
      */
-    public function nativeConvert(float $value, string $to): float
+    public function nativeConvert(float $value, string $to, string $from = null): float
     {
+        // make usd as base
         $latest = $this->latest();
-        $conversion = new Conversion($latest->rates);
-        return $conversion->convert($value, $to);
+        $conversion = new Conversion($latest->rates, "USD");
+        return $conversion->convert($value, $to, $from);
     }
 
 }
