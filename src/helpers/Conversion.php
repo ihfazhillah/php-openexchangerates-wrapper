@@ -4,7 +4,7 @@ class Conversion
 {
     protected $base;
 
-    public function __construct(object $rates = null, string $base = null)
+    public function __construct(\stdClass $rates = null, string $base = null)
     {
         $this->rates = $rates ? $rates : new \StdClass;
         $this->base = $base ? $base : "USD";
