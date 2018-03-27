@@ -59,4 +59,40 @@ class TestConversionHelper extends TestCase
         $this->expectExceptionMessage("AKU currency not available");
         $conversion->convert(10, "AKU");
     }
+
+    public function testGetDefaultBase()
+    {
+        $conversion = new Conversion();
+        $this->assertEquals("USD", $conversion->getBase());
+    }
+
+    public function testAddPredefinedBase()
+    {
+        $conversion = new Conversion(new stdClass, "IDR");
+        $this->assertEquals("IDR", $conversion->getBase());
+    }
+
+    public function testConvertWithFormThatEqualsWithBase()
+    {
+        $conversion = new Conversion($this->rates);
+        $result = $conversion->convert(10, "CTM", "USD");
+        $this->assertEquals(20, $result);
+    }
+
+    public function testConvertWithFormThatNotEqualsAndFound()
+    {
+        $conversion = new Conversion($this->rates);
+        $result = $conversion->convert(10, "CTM", "AKU");
+        $this->assertEquals(8.0, $result);
+    }
+
+    public function testConvertWithFromThatNotEqualsButNotFound()
+    {
+
+        $conversion = new Conversion($this->rates);
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("YOU currency not available");
+        $conversion->convert(10, "CTM", "YOU");
+    }
 }
