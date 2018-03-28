@@ -142,7 +142,7 @@ class OpenExchangeRates
      * 3. symbols: comma separated value of currency code
      *
      * ```
-     * $historical = $oxr->historical(['date' => '2018-01-29']);
+     * $historical = $oxr->historical('2018-01-29');
      * ```
      *
      * @param string $date required - YYYY-MM-DD format
@@ -247,6 +247,7 @@ class OpenExchangeRates
      *
      * @param float $value
      * @param string $to
+     * @param string $from . Default is USD.
      * @return float
      */
     public function nativeConvert(float $value, string $to, string $from = null): float
