@@ -97,7 +97,10 @@ class OpenExchangeRates
         $skip_cache = isset($options['skip_cache']) && $options['skip_cache'] ? true : false;
         unset($options['skip_cache']);
 
-        $this->handleGetFromCache($endpointName, $skip_cache);
+        $fromCache = $this->handleGetFromCache($endpointName, $skip_cache);
+        if ($fromCache) {
+            return $fromCache;
+        }
 
         $endpoint = $this->endpoint->getEndpointInstance($endpointName);
         $url = $endpoint->getEndpoint($options);
