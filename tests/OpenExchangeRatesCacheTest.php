@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHTTP\Client;
 use OpenExchangeRatesWrapper\caches\FileCache;
 use OpenExchangeRatesWrapper\OpenExchangeRates;
 use org\bovigo\vfs\vfsStream;
@@ -103,6 +104,24 @@ class OpenExchangeWithCacheTest extends TestCase
             json_decode($latestFromCache->value)
         );
 
+    }
+
+    public function testNotCallGetEndpointInstanceWhenCacheValid()
+    {
+        // create file
+        $cache = new FileCache(1 / 360, vfsStream::url("mydir"));
+        $cache->set("latest", '{"key" : "hay"}');
+        // create stub / mock
+        $client = $this->getMockBuilder(Client::class)
+            ->setMethods(['get'])
+            ->getMock();
+        // verify that not called
+        $client->expects($this->never())
+            ->method('get');
+
+        $oxr = new OpenExchangeRates("Test", ["cacheHandler" => $cache], $client);
+
+        $oxr->latest();
     }
 
     public function testCacheHandlerNotCachingWhenNotSpecified(): void
